@@ -1,0 +1,71 @@
+.toolbar--collapsable {
+  white-space: nowrap;
+}
+.toolbar-primary {
+  display: block;
+}
+.toolbar {
+  background: #f5f5f5;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #ebebeb;
+  outline: 0;
+  padding: 8px 0 4px;
+  position: relative;
+  zoom: 1;
+}
+.toolbar--header {
+  background: none;
+  border-width: 0!important;
+  display: inline;
+  min-height: 35px;
+  padding: 0; 
+  border-bottom: none;
+}
+.toolbar-button,
+.toolbar-menu-button {
+  border-radius: 2px;
+  background: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 1px;
+  outline: none;
+  padding: 0;
+  height: 24px;
+  color: #333;
+  line-height: 24px;
+  list-style: none;
+  font-size: 11px;
+  font-weight: bold;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: default;
+
+  // will separate in the feature
+  margin: 4px 0 0 -1px;
+}
+.toolbar-button-outer-box {
+  border: 0;
+  vertical-align: top;
+
+  // will separate in the feature
+  margin: 0;
+  padding: 0;
+}
+.toolbar-button-inner-box {
+  height: 25px;
+  min-width: 25px;
+  padding: 0;
+  text-align: center;
+}
+.toolbar-ico {
+  direction: ltr;
+  text-align: left;
+  height: 21px;
+  overflow: hidden;
+  vertical-align: middle;
+  width: 21px;
+
+  // will separate in the feature
+  margin-top: -3px;
+  opacity: 0.70;
+}

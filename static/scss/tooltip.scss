@@ -1,0 +1,48 @@
+
+
+.tooltip {
+  white-space: nowrap;
+  transition: opacity 0.5s $animation-timing-function;
+  position: absolute;
+  opacity: 0;
+  font-size: 11px;
+  max-width: 120px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  &.in{
+  opacity: 1;
+  }
+  .no-animations & {
+    transition: none;
+  }
+
+  .tooltip-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+  }
+  &.bottom,.tooltip-arrow {
+      top: 0;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 0 5px 5px;
+      border-bottom-color: #000000;
+  }
+  .keystroke {
+    color: darken(#fff, 30%);
+    padding-left: 2px;
+  }
+  .tooltip-inner {
+    line-height: 22px;
+    padding: 0 8px;
+    margin-top: 5px;
+    border-radius: $border-radius;
+    background-color: $color-grey-700;
+    color: #fff;
+    white-space: nowrap;
+    max-width: none;
+  }
+
+}

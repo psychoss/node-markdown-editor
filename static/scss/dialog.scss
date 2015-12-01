@@ -1,0 +1,78 @@
+dialog {
+	&::backdrop {
+		background-color: rgba(0, 0, 0, .3);
+	}
+	box-sizing: border-box;
+	border:1px solid transparent!important;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+	border-radius: 2px;
+	padding: 0;
+	.dialog-close {
+		position: absolute;
+		top: 8px;
+		right: 5px;
+		padding: 10px;
+		-webkit-appearance: none;
+		background-color: transparent;
+		border: 0;
+		opacity: 0.25;
+		cursor: pointer;
+		.material-icons {
+			font-size: 16px;
+		}
+		&:hover {
+			opacity: 1;
+		}
+	}
+}
+
+.dialog-content {
+	width: 455px;
+	padding: 15px;
+	box-sizing: border-box;
+}
+
+.dialog-title {
+	border-bottom: 1px solid #ddd;
+	color: #333;
+	font-size: 16px;
+	line-height: normal;
+	font-weight: bold;
+	margin: 0 0 12px;
+	padding: 0 0 6px;
+	text-shadow: 0 -1px 0 #f7f7f7;
+}
+
+dialog fieldset {
+	display: block;
+	border: 0;
+	margin: 0;
+	overflow: hidden;
+	padding: 0 12px;
+	.field {
+		margin: 0 0 18px;
+		padding: 0;
+	}
+	label {
+		color: #666;
+		display: block;
+		font-size: 14px;
+		font-weight: bold;
+		line-height: 1.6;
+		margin: 0;
+		padding: 0;
+		min-width: 80px;
+	}
+	input[type="text"] {
+		display: block;
+		margin: 3px 0 0;
+		width: 100%;
+	}
+}
+
+.dialog-footer {
+	box-sizing: border-box;
+	border-top: 1px solid #ddd;
+	margin: 14px 0 0;
+	padding: 12px 0 0;
+}

@@ -1,0 +1,67 @@
+
+
+/**
+ * ------------------------------------------------------------------------
+ *  Notifition
+ * ------------------------------------------------------------------------
+ */
+.notifition {
+  display: flex;
+  align-items: flex-end;
+  flex-flow: column-reverse;
+  padding-bottom: 3rem;
+}
+.notifition {
+  padding: 0;
+  border-radius: 3px;
+  .content {
+    border-radius: 3px;
+    width: 100%;
+    > div {
+      padding: 1.25rem 2rem;
+      line-height: 2;
+    }
+  }
+  &.success,
+  &.error,
+  &.info,
+  &.warning,
+  &.fatal {
+    border-left: 1px solid transparent;
+    .content {
+      background-color: darken($color--background, 5%);
+      color: $color-text;
+    }
+    .close-all.btn,
+    .close-all.btn:hover {
+      border-color: lighten($color-text, 50%);
+      color: lighten($color-text, 50%);
+    }
+    code {
+      background-color: lighten($color-red, 5%);
+      color: #fff;
+    }
+  }
+  &.success {
+    border-color: $color-light-green;
+  }
+  &.error,
+  &.fatal {
+    border-color: $color-red;
+  }
+  &.has-close {
+    .content > div {
+      padding-right: 4rem;
+    }
+    &:only-child {
+      .content > div {
+        padding-right: 4rem;
+      }
+    }
+    &:first-child:not(:only-child) {
+      .content > div {
+        padding-right: 12rem;
+      }
+    }
+  }
+}
