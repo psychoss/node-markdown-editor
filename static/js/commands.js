@@ -3,7 +3,34 @@ class Commands {
 	constructor(editor, dialogProxy) {
 		this.editor = editor;
 		this.dialogProxy = dialogProxy;
+		this.init();
 	}
+	init() {
+
+		let cmd = [{
+			name: "addHead",
+			bindKey: {
+				win: "F1"
+			},
+			exec: this.head
+		}, {
+			name: "addCode",
+			bindKey: {
+				win: "F2"
+			},
+			exec: this.code
+		}, {
+			name: "save",
+			bindKey: {
+				win: "F5"
+			},
+			exec: this.save
+		}]
+		cmd.forEach((v) => {
+			this.editor.commands.addCommand(v);
+		})
+	}
+
 	_indentString() {
 			return this.editor.session.getTabString();
 		}
@@ -48,9 +75,9 @@ class Commands {
 		 *  Code
 		 * ------------------------------------------------------------------------
 		 */
-	code() {
-			let selection = this.editor.getSelectionRange();
-			let str = this.editor.session.getTextRange(selection);
+	code(e) {
+			let selection = e.getSelectionRange();
+			let str = e.session.getTextRange(selection);
 
 			if (str.trim()) {
 				if (/\n/.test(str)) {
@@ -61,7 +88,7 @@ class Commands {
 			} else {
 				str = "\n```\n\n```\n";
 			}
-			this.editor.session.replace(selection, str)
+			e.session.replace(selection, str)
 		}
 		/**
 		 * ------------------------------------------------------------------------
@@ -147,11 +174,33 @@ class Commands {
 		}
 		/**
 		 * ------------------------------------------------------------------------
+		 * Hr
+		 * ------------------------------------------------------------------------
+		 */
+	hr() {
+			let selection = this.editor.getSelectionRange();
+			let str = this.editor.session.getTextRange(selection);
+			this.editor.session.replace(selection, "\n\n---\n" + str)
+		}
+		/**
+		 * ------------------------------------------------------------------------
 		 * Insert Image
 		 * ------------------------------------------------------------------------
 		 */
 	insertImg() {
 			return this.dialogProxy.template('template/image-dialog.html', "dialog-insert-image");
+		}
+		/**
+		 * ------------------------------------------------------------------------
+		 * Insert Link
+		 * ------------------------------------------------------------------------
+		 */
+	insertLink() {
+			let selection = this.editor.getSelectionRange();
+			let str = this.editor.session.getTextRange(selection);
+
+
+			this.editor.session.replace(selection, "[" + str.trim() + "]()")
 		}
 		/**
 		 * ------------------------------------------------------------------------
@@ -168,30 +217,53 @@ class Commands {
 	 *  Save
 	 * ------------------------------------------------------------------------
 	 */
-	save() {
-		let content = this.editor.getValue();
-		let title = content.firstLine();
-		if (!title) return;
-		else {
-			title = title.replace(/^# +/, '');
-		}
-		let id = window.note_id || -1;
+	save(e) {
+			let content =e.getValue();
+			let title = content.firstLine();
+			if (!title) return;
+			else {
+				title = title.replace(/^# +/, '');
+			}
+			let id = window.note_id || -1;
 
-		if (content.trim()) {
-			 Ajax.to("/put-note", {
-				body: JSON.stringify({
-					id: id,
-					title: title,
-					content: content,
-					create: Date.now()
-				})}).then((t) => {
-				console.log(arguments);
-				window.note_id = t;
-				Abstract.html(window.$holder.title, title);
-			}).catch(() => {
-				console.log(arguments);
-			})
-		}
+			if (content.trim()) {
+				Ajax.to("/put-note", {
+					body: JSON.stringify({
+						id: id,
+						title: title,
+						content: content,
+						create: Date.now()
+					})
+				}).then((t) => {
+					console.log(arguments);
+					window.note_id = t;
+					Abstract.html(window.$holder.title, title);
+				}).catch(() => {
+					console.log(arguments);
+				})
+			}
 
+		}
+		/**
+		 * ------------------------------------------------------------------------
+		 * 
+		 * ------------------------------------------------------------------------
+		 */
+
+	head(e) {
+		let range = e.getSelectionRange().collapseRows();
+		let doc = e.session.doc;
+		let line = doc.getLine(range.start.row)
+		if (/^#* /.test(line)) {
+			doc.insertInLine({
+				row: range.start.row,
+				column: 0
+			}, "#");
+		} else {
+			doc.insertInLine({
+				row: range.start.row,
+				column: 0
+			}, "# ");
+		}
 	}
 }

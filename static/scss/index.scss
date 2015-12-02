@@ -1,4 +1,9 @@
 @import 'mixin/clearfix';
+@import 'mixin/shadow';
+
+
+@import 'shadow';
+
 @import 'variable';
 @import 'font';
 @import 'reset';
@@ -36,7 +41,7 @@
 	display: flex;
 	flex-direction: row;
 	width: 100%;
-	height: 100%;
+	height: #{"calc( 100% - 37px)"};
 	align-items: stretch;
 	align-content: stretch;
 }
@@ -149,16 +154,8 @@
 }
 
 
-/**
- * ------------------------------------------------------------------------
- *
- * ------------------------------------------------------------------------
- */
 
-.inline-block {
-	position: relative;
-	display: inline-block;
-}
+
 
 
 /**

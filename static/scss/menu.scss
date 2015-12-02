@@ -1,64 +1,48 @@
-menu {
-  position: absolute;
-  top: 50px;
-  left: 50px;
-  margin: 0;
-  padding: 3px 0 4px;
-  opacity: 0;
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.35);
-  border-radius: 4px;
-  font-family: inherit;
-  font-size: 14px;
-  line-height: 15px;
-  transition: opacity .35s ease;
-  &.is-visible{
-    display: block;
-    opacity: 1;
-  }
+$menu-color:#fff;
+$menu-color-hover:#eee;
+$menu-z-index:11;
+.menu {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	display: none;
+	float: left;
+	z-index: $menu-z-index;
+	min-width: 160px;
+	padding: 5px 0;
+	margin: 2px 0 0;
+	font-size: 14px;
+	text-align: left;
+	list-style: none;
+	background-color: $menu-color;
+	background-clip: padding-box;
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0, 0, 0, .15);
+	border-radius: 2px;
+	&.shadow {
+		box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+	}
+	&.is-active {
+		display: block;
+	}
+	&>li>a {
+		display: block;
+		padding: 3px 20px;
+		clear: both;
+		font-weight: 400;
+		line-height: 1.42857143;
+		color: #333;
+		white-space: nowrap;
+		cursor: pointer;
+		&:hover {
+			background-color: $menu-color-hover;
+		}
+	}
 }
 
-menu::before {
-  display: block;
-  position: absolute;
-  content: "";
-  top: -1px;
-  left: -1px;
-  bottom: -1px;
-  right: -1px;
-
-  border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  z-index: -1;
-}
-
-menu hr {
-  border: none;
-  height: 1px;
-  background: rgba(0, 0, 0, 0.10);
-  margin: 6px 1px 5px;
-  padding: 0;
-}
-
-menu menuitem {
-  display: block;
-  padding: 0 20px;
-  border-top: 1px solid rgba(0, 0, 0, 0);
-  border-bottom: 1px solid rgba(0, 0, 0, 0);
-}
-
-menu menuitem::after {
-  vertical-align: 2px;
-  content: attr(label);
-}
-
-menu menuitem:hover {
-  background: -webkit-linear-gradient(top, #648bf5, #2866f2);
-  background: linear-gradient(to bottom, #648bf5 0%, #2866f2 100%);
-  border-top: 1px solid #5a82eb;
-  border-bottom: 1px solid #1758e7;
-}
-
-menu menuitem:hover::after {
-  color: #fff;
+.menu .divider {
+	height: 1px;
+	margin: 9px 0;
+	overflow: hidden;
+	background-color: #e5e5e5;
 }

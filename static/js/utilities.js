@@ -112,6 +112,7 @@
 	 * ------------------------------------------------------------------------
 	 */
  (function () {
+	 window.log=console.log;
 	 window.$slice=[].slice;
 	 window.$holder={
 		title:document.querySelector('title') 

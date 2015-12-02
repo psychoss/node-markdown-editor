@@ -1,0 +1,31 @@
+// .shadow-2{
+// 	@inculde:shadow-2dp();
+// }
+
+.shadow-2{
+  @include shadow-2dp();
+}
+
+.shadow-3{
+  @include shadow-3dp();
+}
+
+.shadow-4{
+  @include shadow-4dp();
+}
+
+.shadow-6{
+  @include shadow-6dp();
+}
+
+.shadow-8{
+  @include shadow-8dp();
+}
+
+.shadow-16{
+  @include shadow-16dp();
+}
+
+.shadow-24{
+  @include shadow-24dp();
+}
