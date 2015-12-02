@@ -20,8 +20,8 @@ class BindElement {
 		this._bind('.editor-head-btn', () => {
 			editor.execCommand("addHead");
 		});
-		this._bind('.editor-bold-btn', ()=>{
-			editor.execCommand("bold");		
+		this._bind('.editor-bold-btn', () => {
+			editor.execCommand("bold");
 		});
 		this._bind('.editor-italic-btn', this.commands.italic.bind(this.commands));
 		this._bind('.editor-code-btn', () => {
@@ -203,8 +203,13 @@ class DataDealer {
 		datas.forEach(function (v) {
 			let line = template;
 			Object.keys(v).forEach(function (k) {
+
 				let re = new RegExp("{" + k + "}", 'g')
-				line = line.replace(re, v[k]);
+				let data = v[k];
+				if (k === 'modified') {
+					data = window.$timeago(parseInt(v[k], 10))+' AGO'
+				}
+				line = line.replace(re, data);
 			})
 			content += line;
 		})
