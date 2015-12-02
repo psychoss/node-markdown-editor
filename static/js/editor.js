@@ -40,9 +40,7 @@ class MarkdownProxy {
 }
 
 
-var langTools = ace.require('ace/ext/language_tools')
-
-console.log(langTools);
+ace.require('ace/ext/language_tools')
 var editor = ace.edit('editor');
 editor.$blockScrolling = Infinity;
 editor.setShowPrintMargin(false);

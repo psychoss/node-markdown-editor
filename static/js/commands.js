@@ -20,6 +20,12 @@ class Commands {
 			},
 			exec: this.code
 		}, {
+			name: "bold",
+			bindKey: {
+				win: "F3"
+			},
+			exec: this.bold
+		}, {
 			name: "save",
 			bindKey: {
 				win: "F5"
@@ -39,18 +45,18 @@ class Commands {
 		 *  Bold
 		 * ------------------------------------------------------------------------
 		 */
-	bold() {
-			let selection = this.editor.getSelectionRange();
-			let str = this.editor.session.getTextRange(selection);
+	bold(e) {
+			let selection =e.getSelectionRange();
+			let str =e.session.getTextRange(selection);
 			if (/^\s*\*\*.+\*\*\s*$/.test(str)) {
 				str = str.replace(/^\s*\*\*(.+)\*\*\s*$/, (match, g) => {
 					return g;
 				});
 
-				this.editor.session.replace(selection, str.trim())
+				e.session.replace(selection, str.trim())
 				return;
 			}
-			this.editor.session.replace(selection, ' **' + str.trim() + '** ')
+			e.session.replace(selection, ' **' + str.trim() + '** ')
 		}
 		/**
 		 * ------------------------------------------------------------------------

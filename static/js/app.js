@@ -20,7 +20,9 @@ class BindElement {
 		this._bind('.editor-head-btn', () => {
 			editor.execCommand("addHead");
 		});
-		this._bind('.editor-bold-btn', this.commands.bold.bind(this.commands));
+		this._bind('.editor-bold-btn', ()=>{
+			editor.execCommand("bold");		
+		});
 		this._bind('.editor-italic-btn', this.commands.italic.bind(this.commands));
 		this._bind('.editor-code-btn', () => {
 			editor.execCommand("addCode");
