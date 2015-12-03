@@ -1,7 +1,11 @@
-'use strict';
+    /**
+	 * ------------------------------------------------------------------------
+	 * 
+	 * ------------------------------------------------------------------------
+	 */
 
 class DialogProxy {
-	constructor() {
+	constructor(_) {
 		// Config for this class
 		this.config = {
 			// the className for the close button
@@ -10,20 +14,22 @@ class DialogProxy {
 			cancel: '.dialog-cancel'
 		}
 		this.init();
+		this._=_;
 	}
 	init() {
 		let dialogs = document.querySelectorAll('dialog');
 		dialogs = window.$slice.call(dialogs, 0);
 		for (let dlg of dialogs) {
 
-			let close = Abstract.qs(dlg, this.config.close)
-			Abstract.click(close, (ev) => {
+			let close = this._.qs(dlg, this.config.close)
+			this_._.click(close, (ev) => {
 				ev.currentTarget.parentNode.close();
 			})
 
 		}
 	}
 	bindClose(dlg) {
+		let this_=this;
 		let close = Abstract.qs(dlg, this.config.close)
 		Abstract.click(close, (ev) => {
 			ev.currentTarget.parentNode.close();

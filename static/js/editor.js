@@ -6,7 +6,6 @@ marked.setOptions({
   tables: true,
   breaks: false,
   pedantic: false,
-  sanitize: true,
   smartLists: true,
   smartypants: false
 });
@@ -16,16 +15,17 @@ marked.setOptions({
 
 
 class MarkdownProxy {
-	constructor(editor) {
+	constructor(editor,_) {
 		this.config = {
 			className: '.markdown-body'
 		}
+		this._=_;
 		this.editor = editor;
 		this.init();
 	}
 
 	init() {
-		this.markdownBody = Abstract.qs(this.config.className);
+		this.markdownBody = this._.qs(this.config.className);
 		this.config.should = true;
 	}
 	set should(value) {
@@ -34,7 +34,7 @@ class MarkdownProxy {
 	whenChange() {
 		if (this.config.should) {
 			let m = marked(editor.getValue().trim());
-			Abstract.html(this.markdownBody, m);
+			this._.html(this.markdownBody, m);
 		}
 	}
 }
@@ -47,7 +47,7 @@ editor.setShowPrintMargin(false);
 editor.getSession().setMode('ace/mode/markdown');
 editor.setAutoScrollEditorIntoView(true);
 editor.setOption("wrap", true);
-let markdownProxy = new MarkdownProxy(editor);
+let markdownProxy = new MarkdownProxy(editor,_);
     editor.setOptions({
         enableBasicAutocompletion: true,
         enableSnippets: true,

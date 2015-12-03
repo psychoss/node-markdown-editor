@@ -1,5 +1,5 @@
-'use strict';
-class Abstract {
+
+class _ {
 	/**
 	 * ------------------------------------------------------------------------
 	 *  ClassName
@@ -118,4 +118,17 @@ After the element itself.
 	static beforeend(ele, h) {
 		ele.insertAdjacentHTML('beforeend', h);
 	}
+	    /**
+		 * ------------------------------------------------------------------------
+		 * 
+		 * ------------------------------------------------------------------------
+		 */
+		static loop(arr,callback){
+			let l=arr.length;
+			if(l>0){
+				while(l--){
+					callback(arr[l])
+				}
+			}
+		}
 }

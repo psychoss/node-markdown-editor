@@ -1,3 +1,4 @@
+'use strict';
 ;
 (function() {
 
@@ -68,7 +69,6 @@
 							} else {
 								clone = src && isPlainObject(src) ? src : {};
 							}
-
 							// Never move original objects, clone them
 							target[name] = extend(deep, clone, copy);
 
