@@ -4,15 +4,27 @@
   * ------------------------------------------------------------------------
   */
 
-#editor {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	font-size: 18px!important;
+.editor-container {
+	position: relative;
+	box-sizing: border-box;
+	float: left;
+	//transition: height .5s ease;
 }
 
+.editor-preview {
+	float: right;
+	background-color: #fff;
+	//transition: height .5s ease;
+}
+
+// .editor {
+// 	position: absolute;
+// 	top: 0;
+// 	right: 0;
+// 	bottom: 0;
+// 	left: 0;
+// 	font-size: 18px!important;
+// }
 .ace-twilight .ace_gutter {
 	background: #232323;
 	color: #E2E2E2;

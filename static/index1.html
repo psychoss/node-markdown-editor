@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="scss/index.css">
+
+</head>
+
+<body>
+    <div class="header">
+        <div class="toolbar">
+            <div class="toolbar-wrapper">
+                <span class="toolbar-separator"></span>
+                <a class="toolbar-button editor-new-btn">
+                    <i class="material-icons">&#xE89C;</i>
+                </a>
+                <a class="toolbar-button editor-save-btn">
+                    <i class="material-icons">save</i>
+                </a>
+                <span class="toolbar-separator"></span>
+                <a class="toolbar-button editor-head-btn">
+                    <i class="material-icons">&#xE145;</i>
+                </a>
+                <a class="toolbar-button editor-bold-btn">
+                    <i class="material-icons">format_bold</i>
+                </a>
+                <a class="toolbar-button editor-italic-btn">
+                    <i class="material-icons">format_italic</i>
+                </a>
+                <a class="toolbar-button editor-code-btn">
+                    <i class="material-icons">code</i>
+                </a>
+                <span class="toolbar-separator"> </span>
+                <a class="toolbar-button editor-sort-btn">
+                    <i class="material-icons">&#xE053;</i>
+                </a>
+                <a class="toolbar-button editor-indent-btn">
+                    <i class="material-icons">&#xE23D;</i>
+                </a>
+
+                <a class="toolbar-button editor-bulleted-btn">
+                    <i class="material-icons">format_list_bulleted</i>
+                </a>
+                <a class="toolbar-button editor-numeric-btn">
+                    <i class="material-icons">&#xE242;</i>
+                </a>
+                <span class="toolbar-separator"></span>
+                <a class="toolbar-button editor-hr-btn">
+                    <i class="material-icons">remove</i>
+                </a>
+                <a class="toolbar-button editor-insert-link-btn">
+                    <i class="material-icons">&#xE250;</i>
+                </a>
+                <a class="toolbar-button editor-insert-image-btn">
+                    <i class="material-icons">&#xE251;</i>
+                </a>
+                <span class="toolbar-separator"></span>
+                <a class="toolbar-button editor-undo-btn" aria-label="Undo">
+                    <i class="material-icons">undo</i>
+                </a>
+                <a class="toolbar-button editor-redo-btn" aria-label="Redo">
+                    <i class="material-icons">redo</i>
+                </a>
+                <span class="toolbar-separator"></span>
+                <a class="toolbar-button js-button-active">
+                    <i class="material-icons">&#xE923;</i>
+                </a>
+                <a class="toolbar-button">
+                    <i class="material-icons">&#xE8B6;</i>
+                </a>
+                <a class="toolbar-button" id="toolbar-notes">
+                    <i class="material-icons">&#xE02F;</i>
+                </a>
+                <div class="dropdown-note dropdown no-gutter no-clear " data-target="toolbar-notes">
+                    <div class="dropdown-header">
+                        <input type="text" id="search-title">
+                        <span class="btn-close">
+					<i class="material-icons">close</i>
+							
+						</span>
+
+                    </div>
+
+
+                    <div class="fixed">
+
+                    </div>
+
+
+
+                    <!--<div class="note-item" data-bind="{_id}">
+						<div class="note-item-content">
+							<div class="note-item-title">
+								{title}
+							</div>
+							<div class="note-item-date">
+								{modified}
+							</div>
+						</div>
+					</div>-->
+
+
+                </div>
+                <a class="toolbar-button view-hide-editor js-button-active">
+                    <i class="material-icons">&#xE8EA;</i>
+                </a>
+
+                <a class="toolbar-button" id="toolbar-more">
+                    <i class="material-icons">&#xE5D3;</i>
+                </a>
+
+
+                <div class="dropdown-more dropdown" data-target="toolbar-more">
+                    <a class="editor-fmt-2-json">Format Code for JSON</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+
+        <div id="editor" class="editor">
+
+        </div>
+        <div class="container-placeholder" style="width:50%"></div>
+        <div class="markdown-body">
+
+        </div>
+    </div>
+
+
+    <!--<script src="ace/snippets/markdown.js"></script>-->
+
+    <ul class="menu is-active shadow-4">
+        <li><a data-command="copy">Copy</a></li>
+        <li><a>Paste</a></li>
+        <li><a>Cut</a></li>
+
+        <li class="divider"> </li>
+    </ul>
+    <script src="js/angular.js"></script>
+    <script src="js/marked.js"></script>
+    <script src="ace/ace.js"></script>
+    <script src="ace/ext/ext-language_tools.js"></script>
+
+    <!-- Components -->
+    <script src="js/index.js"></script>
+    <script src="js/editor.js"></script>
+
+    <script src="js/app.js"></script>
+    <script>
+        var he= document.querySelector('.view-hide-editor')
+        document.addEventListener('keypress',function(ev){
+            console.log(ev);
+        })
+		he.addEventListener('click',function(ev){
+			if(ev.target.classList.contains('is-hide')){
+				document.getElementById('editor').style.display='block';
+			document.querySelector('.container-placeholder').style.width="50%";
+			document.querySelector('.markdown-body').style.maxWidth="50%";
+			ev.target.classList.remove('is-hide');
+			return;
+			}
+			document.getElementById('editor').style.display='none';
+			document.querySelector('.container-placeholder').style.width=0;
+			document.querySelector('.markdown-body').style.maxWidth="100%";
+			ev.target.classList.add('is-hide');
+		})
+        // document.querySelector('dialog').showModal();
+    </script>
+</body>
+
+</html>

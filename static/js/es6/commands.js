@@ -236,10 +236,11 @@
     				title = title.replace(/^# +/, '');
     			}
     			let id = window.note_id || -1;
+    			console.log("The id of the post data is: ", window.note_id);
+                
     			let datas = null;
     			if (id !== -1) {
     				datas = {
-
     					id: id,
     					title: title,
     					content: content

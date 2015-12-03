@@ -17,7 +17,7 @@
 @import 'loader';
 @import 'editor';
 @import 'markdown';
-
+@import 'utilities';
 /**
  * ------------------------------------------------------------------------
  * Header
@@ -42,8 +42,7 @@
 	flex-direction: row;
 	width: 100%;
 	height: #{"calc( 100% - 37px)"};
-	align-items: stretch;
-	align-content: stretch;
+	
 }
 
 

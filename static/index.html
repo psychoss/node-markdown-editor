@@ -1,167 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
 
 <head>
-    <meta charset="utf-8">
-    <title></title>
-    <link rel="stylesheet" href="scss/index.css">
-
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+	<meta http-equiv="Content-Language" content="zh">
+	<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
+	<link rel="stylesheet" href="scss/index.css">
 </head>
 
-<body >
-    <div class="header">
-        <div class="toolbar">
-            <div class="toolbar-wrapper">
-                <span class="toolbar-separator"></span>
-                <a class="toolbar-button editor-new-btn">
-                    <i class="material-icons">&#xE89C;</i>
-                </a>
-                <a class="toolbar-button editor-save-btn">
-                    <i class="material-icons">save</i>
-                </a>
-                <span class="toolbar-separator"></span>
-                <a class="toolbar-button editor-head-btn">
-                    <i class="material-icons">&#xE145;</i>
-                </a>
-                <a class="toolbar-button editor-bold-btn">
-                    <i class="material-icons">format_bold</i>
-                </a>
-                <a class="toolbar-button editor-italic-btn">
-                    <i class="material-icons">format_italic</i>
-                </a>
-                <a class="toolbar-button editor-code-btn">
-                    <i class="material-icons">code</i>
-                </a>
-                <span class="toolbar-separator"> </span>
-                <a class="toolbar-button editor-sort-btn">
-                    <i class="material-icons">&#xE053;</i>
-                </a>
-                <a class="toolbar-button editor-indent-btn">
-                    <i class="material-icons">&#xE23D;</i>
-                </a>
-
-                <a class="toolbar-button editor-bulleted-btn">
-                    <i class="material-icons">format_list_bulleted</i>
-                </a>
-                <a class="toolbar-button editor-numeric-btn">
-                    <i class="material-icons">&#xE242;</i>
-                </a>
-                <span class="toolbar-separator"></span>
-                <a class="toolbar-button editor-hr-btn">
-                    <i class="material-icons">remove</i>
-                </a>
-                <a class="toolbar-button editor-insert-link-btn">
-                    <i class="material-icons">&#xE250;</i>
-                </a>
-                <a class="toolbar-button editor-insert-image-btn">
-                    <i class="material-icons">&#xE251;</i>
-                </a>
-                <span class="toolbar-separator"></span>
-                <a class="toolbar-button editor-undo-btn" aria-label="Undo">
-                    <i class="material-icons">undo</i>
-                </a>
-                <a class="toolbar-button editor-redo-btn" aria-label="Redo">
-                    <i class="material-icons">redo</i>
-                </a>
-                <span class="toolbar-separator"></span>
-                <a class="toolbar-button js-button-active">
-                    <i class="material-icons">&#xE923;</i>
-                </a>
-                <a class="toolbar-button">
-                    <i class="material-icons">&#xE8B6;</i>
-                </a>
-                <a class="toolbar-button" id="toolbar-notes">
-                    <i class="material-icons">&#xE02F;</i>
-                </a>
-                <div class="dropdown-note dropdown no-gutter no-clear " data-target="toolbar-notes">
-                    <div class="dropdown-header">
-                        <input type="text" id="search-title">
-                        <span class="btn-close">
-					<i class="material-icons">close</i>
-							
-						</span>
-
-                    </div>
-
-
-                    <div class="fixed">
-
-                    </div>
-
-
-
-                    <!--<div class="note-item" data-bind="{_id}">
-						<div class="note-item-content">
-							<div class="note-item-title">
-								{title}
-							</div>
-							<div class="note-item-date">
-								{modified}
+<body ng-controller="MainController">
+	<div id="body-container" style="max-height:100%">
+		<div class="header-fixed">
+			<div class="header-container base-gutter clearfix">
+				<div class="horizontal-margin-auto">
+					<div class="header-logo">
+						<button class="btn header-toggle-btn" ng-click="show" slide-toggle=".slide-layout">
+							<span class="btn-ico-wrapper">
+									<i class="btn-ico header-btn-ico">menu</i>
+							</span>
+						</button>
+					</div>
+					<div class="hide-overflow">
+						<div class="header-search">
+							<button class="btn btn-default header-search-button no-shadow">
+								<span class="header-search-button-content">
+									<i class="header-btn-ico">search</i>
+								</span>
+							</button>
+							<div class="header-search-input">
+								<input focus-effect type="text">
 							</div>
 						</div>
-					</div>-->
+					</div>
+				</div>
+			</div>
+		</div>
 
+		<div class="slide-layout">
+			<div class="slide-content">
+				<ul class=" menu">
+					<li class="menu-item"><a class="menu-item-link">asdasddad</a></li>
+				</ul>
+			</div>
+		</div>
 
-                </div>
-                <a class="toolbar-button" id="toolbar-more">
-                    <i class="material-icons">&#xE5D3;</i>
-                </a>
-                <div class="dropdown-more dropdown" data-target="toolbar-more">
-                    <a class="editor-fmt-2-json">Format Code for JSON</a>
-                    <a class="view-hide-editor">Hide Editor</a>
-                </div>
+		<div class="page-container">
+			<div class="page clearfix">
+				<div class="editor-container">
+					<div class="editor" ace-holder auto-resize offset-top="55" offset-bottom="15" half="1" gutter="10"></div>
+				</div>
+				<div class="editor-preview" auto-resize offset-top="55" offset-bottom="15" half="1" gutter="10">
+					<div class="markdown-body" markdown="$parent"></div>
+				</div>
+			</div>
+		</div>
 
-            </div>
-        </div>
-    </div>
-    <div class="container">
+	</div>
 
-        <div id="editor" class="editor">
-
-        </div>
-        <div class="container-placeholder" style="width:50%"></div>
-        <div class="markdown-body">
-
-        </div>
-    </div>
-
-
-    <!--<script src="ace/snippets/markdown.js"></script>-->
-
-<ul class="menu is-active shadow-4">
-   <li><a data-binding="copy">Copy</a></li>
-   <li><a>Paste</a></li>
-   <li><a>Cut</a></li>
-   
-   <li class="divider"> </li>
-</ul>
-
-    <script src="js/marked.js"></script>
-    <script src="ace/ace.js"></script>
-    <script src="ace/ext/ext-language_tools.js"></script>
-    
-    <!-- Components -->
-    <script src="js/index.js"></script>
-    <script src="js/editor.js"></script>
-
-    <script src="js/app.js"></script>
-    <script>
-		var he= document.querySelector('.view-hide-editor')
-		he.addEventListener('click',function(ev){
-			if(ev.target.classList.contains('is-hide')){
-				document.getElementById('editor').style.display='block';
-			document.querySelector('.container-placeholder').style.width="50%";
-			document.querySelector('.markdown-body').style.maxWidth="50%";
-			ev.target.classList.remove('is-hide');
-			return;
-			}
-			document.getElementById('editor').style.display='none';
-			document.querySelector('.container-placeholder').style.width=0;
-			document.querySelector('.markdown-body').style.maxWidth="100%";
-			ev.target.classList.add('is-hide');
-		})
-        // document.querySelector('dialog').showModal();
-    </script>
+	<script src="js/angular/angular.js"></script>
+	<script src="js/angular/angular-animate.js"></script>
+	<script src="ace/ace.js"></script>
+	<script src="js/index.js"></script>
 </body>
 
 </html>

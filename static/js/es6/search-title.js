@@ -3,7 +3,7 @@
 class SearchTitle {
 	constructor(_) {
 		this.config = {
-			contentSelector: '#toolbar-notes .fixed',
+			contentSelector: '.dropdown-note .fixed',
 			content: null,
 			input: '#search-title'
 		}

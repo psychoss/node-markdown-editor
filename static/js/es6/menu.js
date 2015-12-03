@@ -20,7 +20,7 @@
     		this.ele.addEventListener('blur', this.blur.bind(this));
     	}
         execCommand(ele){
-            this.editor.execCommand( this._.atr(ele,'data-binding'))
+            this.editor.execCommand( this._.atr(ele,'data-command'))
         }
     	_bindClose() {
     		let items = document.querySelectorAll('li>a');
