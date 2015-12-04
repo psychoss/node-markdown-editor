@@ -65,3 +65,50 @@
  	line-height: 20px;
  	vertical-align: bottom;
  }
+ 
+ .menu-separator {
+ 	border-top: 1px solid #ebebeb;
+ 	margin-top: 6px;
+ 	margin-bottom: 6px;
+ }
+ 
+ .dropdown {
+ 	.menu {
+ 		webkit-border-radius: 3px;
+ 		border-radius: 3px;
+ 		-webkit-box-shadow: 0 2px 40px rgba(0, 0, 0, .4);
+ 		box-shadow: 0 2px 40px rgba(0, 0, 0, .4);
+ 		-webkit-transition: opacity .218s;
+ 		transition: opacity .218s;
+ 		background: #fff;
+ 		border: 1px solid #ccc;
+ 		border: 1px solid rgba(0, 0, 0, .2);
+ 		cursor: default;
+ 		font-size: 13px;
+ 		margin: 0;
+ 		outline: none;
+ 		padding: 6px 0;
+ 		position: absolute;
+ 		z-index: $z-index-slide;
+ 		visibility: hidden;
+ 		.menu-item {
+ 			position: relative;
+ 			color: #333;
+ 			cursor: pointer;
+ 			list-style: none;
+ 			margin: 0;
+ 			padding: 6px 8em 6px 30px;
+ 			white-space: nowrap;
+ 			outline: none;
+ 			-webkit-user-select: none;
+ 			&:hover {
+ 				background-color: #e8e8e8;
+ 			}
+ 		}
+ 	}
+ 	&:hover {
+ 		.menu {
+ 			visibility: visible;
+ 		}
+ 	}
+ }

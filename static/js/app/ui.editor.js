@@ -155,6 +155,16 @@
  			str = "[\"" + str.split('\n').join("\",\n\"") + "\"]";
 
  			replaceSelectedText(str);
+ 		},
+ 		preview: function() {
+ 			var viewer = document.querySelector('.editor-preview');
+ 			if (viewer.classList.contains('full-width')) {
+ 				document.querySelector('.editor').style.display = 'block';
+ 				viewer.classList.remove('full-width')
+ 			} else {
+ 				document.querySelector('.editor').style.display = 'none';
+ 				viewer.classList.add('full-width');
+ 			}
  		}
  	}
 
@@ -188,6 +198,15 @@
  			win: "F2"
  		},
  		exec: commands.code
+ 	}, {
+ 		name: "preview",
+ 		bindKey: {
+ 			win: "F11"
+ 		},
+ 		exec: commands.preview
+ 	}, {
+ 		name: "fmtToarray",
+ 		exec: commands.fmtToarray
  	}, ]
 
  	var l = cmd.length;
@@ -196,7 +215,7 @@
  	}
 
  	function bindCommands() {
- 		var btn = document.querySelectorAll("button.command");
+ 		var btn = document.querySelectorAll(".command");
  		var l = btn.length;
  		while (l--) {
  			btn[l].addEventListener('click', function(ev) {

@@ -1,63 +1,63 @@
-.dropdown {
-	position: absolute;
-	z-index: -1;
-	overflow: visible;
-	height: 0;
-	padding: 10px 0;
-	transition: opacity, height 0.5s ease;
-	opacity: 0;
-	border: 1px solid #D3D3D3;
-	outline: none;
-	background: #FFFFFF;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-	&.no-gutter {
-		padding: 0;
-	}
-	.fixed{
-		max-height: 500px;
-		overflow-y: auto;
-	}
-	&.is-active {
-		z-index: $z-index-dropdown;
-		height: auto;
-		opacity: 1;
-	}
-	>a {
-		font-size: 13px;
-		line-height: 25px;
-		position: relative;
-		display: block;
-		box-sizing: border-box;
-		width: 100%;
-		margin: 0;
-		padding: 0 15px;
-		cursor: pointer;
-		text-align: left;
-		white-space: nowrap;
-		text-decoration: none;
-		word-wrap: normal;
-		color: #333333;
-		&:hover {
-			background: $color-hover;
-		}
-		&:focus {
-			outline: none;
-			background: $color-hover;
-		}
-	}
-}
+// .dropdown {
+// 	position: absolute;
+// 	z-index: -1;
+// 	overflow: visible;
+// 	height: 0;
+// 	padding: 10px 0;
+// 	transition: opacity, height 0.5s ease;
+// 	opacity: 0;
+// 	border: 1px solid #D3D3D3;
+// 	outline: none;
+// 	background: #FFFFFF;
+// 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+// 	&.no-gutter {
+// 		padding: 0;
+// 	}
+// 	.fixed{
+// 		max-height: 500px;
+// 		overflow-y: auto;
+// 	}
+// 	&.is-active {
+// 		z-index: $z-index-dropdown;
+// 		height: auto;
+// 		opacity: 1;
+// 	}
+// 	>a {
+// 		font-size: 13px;
+// 		line-height: 25px;
+// 		position: relative;
+// 		display: block;
+// 		box-sizing: border-box;
+// 		width: 100%;
+// 		margin: 0;
+// 		padding: 0 15px;
+// 		cursor: pointer;
+// 		text-align: left;
+// 		white-space: nowrap;
+// 		text-decoration: none;
+// 		word-wrap: normal;
+// 		color: #333333;
+// 		&:hover {
+// 			background: $color-hover;
+// 		}
+// 		&:focus {
+// 			outline: none;
+// 			background: $color-hover;
+// 		}
+// 	}
+// }
 
-.dropdown-header {
-	padding: 8px 10px;
-	background: #f5f5f5;
-	border-bottom: 1px solid rgba(200, 200, 200, 0.4);
-	position: relative;
-	select {
-		padding: 0;
-	}
-}
+// .dropdown-header {
+// 	padding: 8px 10px;
+// 	background: #f5f5f5;
+// 	border-bottom: 1px solid rgba(200, 200, 200, 0.4);
+// 	position: relative;
+// 	select {
+// 		padding: 0;
+// 	}
+// }
 
-.dropdown-label {
-	display: inline-block;
-	vertical-align: middle;
-}
+// .dropdown-label {
+// 	display: inline-block;
+// 	vertical-align: middle;
+// }
