@@ -103,7 +103,7 @@ embed, object { position: relative; }
 
 .header-container { background: #fff; border-bottom: 1px solid #e8e8e8; min-width: 0; padding-bottom: 8px; padding-top: 7px; position: relative; }
 
-.header-logo { float: left; margin-top: 3px; position: relative; width: 200px; }
+.header-logo { float: left; margin-top: 3px; position: relative; }
 
 .header-logo .header-toggle-btn { display: inline-block; margin-left: -7px; height: 30px; }
 
@@ -113,7 +113,13 @@ embed, object { position: relative; }
 
 .header-logo .header-toggle-btn .header-btn-ico:hover { opacity: 1; }
 
-.header-search { margin-top: 3px; max-width: 650px; overflow: hidden; padding: 0; position: relative; }
+.header-line { margin-top: 3px; overflow: hidden; padding: 0; position: relative; }
+
+.header-line > button { float: left; border-left: none; border-right: none; border-radius: 0; border-color: #e8e8e8; }
+
+.header-line > button:first-child { border-left: 1px solid #e8e8e8; }
+
+.header-line > button:last-child { border-right: 1px solid #e8e8e8; }
 
 .header-search-input { background-color: #fff; font-size: 14px; height: 29px; line-height: 30px; margin: 0 0 2px; overflow: hidden; position: relative; -moz-box-sizing: border-box; box-sizing: border-box; -moz-transition: border-color 0.2s ease; -webkit-transition: border-color 0.2s ease; transition: border-color 0.2s ease; border: 1px solid #ccc; box-shadow: inset 0 1px 2px #eee; }
 
@@ -123,11 +129,15 @@ embed, object { position: relative; }
 
 .header-search .header-search-button { padding: 0; float: right; height: 29px; border-left: 0; -moz-border-radius-topleft: 0; border-top-left-radius: 0; -moz-border-radius-bottomleft: 0; border-bottom-left-radius: 0; }
 
-.header-search-button-content { border: none; display: block; opacity: .6; padding: 0; background-size: auto; width: 20px; height: 20px; box-shadow: none; margin: 0 25px; }
+.header-search-content { border: none; display: block; opacity: .6; padding: 0; background-size: auto; width: 20px; height: 20px; box-shadow: none; }
 
-.header-search-button-content:hover { opacity: 1; }
+.header-search-content:hover { opacity: 1; }
 
 .header-btn-ico { font-family: 'Material Icons'; font-size: 20px; font-weight: normal; font-style: normal; line-height: 1; display: inline-block; white-space: nowrap; letter-spacing: normal; text-transform: none; word-wrap: normal; direction: ltr; -webkit-font-feature-settings: 'liga'; -webkit-font-smoothing: antialiased; }
+
+.notify { max-width: 300px; padding: 10px; left: 50%; transform: translateX(-50%); position: absolute; top: -300px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15); transition: top 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 25; }
+
+.notify.show { top: 30px; }
 
 /** ------------------------------------------------------------------------ scrollbar ------------------------------------------------------------------------ */
 ::-webkit-scrollbar-thumb { background-color: rgba(0, 0, 0, 0.2); background-clip: padding-box; border: solid transparent; border-width: 1px 1px 1px 6px; min-height: 28px; padding: 100px 0 0; box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.07); }
@@ -140,7 +150,7 @@ embed, object { position: relative; }
 
 ::-webkit-scrollbar-button { height: 0; width: 0; }
 
-.btn { display: inline-block; height: 28px; border: solid 1px transparent; padding: 0 10px; outline: 0; font-weight: 500; font-size: 11px; text-decoration: none; white-space: nowrap; word-wrap: normal; line-height: normal; vertical-align: middle; cursor: pointer; border-radius: 2px; }
+.btn { display: inline-block; height: 28px; border: solid 1px transparent; padding: 0 10px; outline: 0; font-weight: 500; font-size: 11px; text-decoration: none; white-space: nowrap; word-wrap: normal; line-height: normal; vertical-align: middle; cursor: pointer; border-radius: 2px; box-sizing: border-box; }
 
 .btn:hover { text-decoration: none; }
 
@@ -192,11 +202,15 @@ dialog fieldset input[type="text"] { display: block; margin: 3px 0 0; width: 100
 
 .slide-content { width: 230px; padding: 13px 22px; -moz-box-sizing: border-box; box-sizing: border-box; }
 
+.menu { overflow-y: auto; }
+
 .menu-item { max-height: 40px; overflow: hidden; position: relative; }
 
-.menu-item-link { display: block; position: relative; border: none; background: none; white-space: nowrap; }
+.menu-item-link { display: block; position: relative; border: none; background: none; white-space: nowrap; outline-offset: -5px; overflow: hidden; -moz-transition: height 0.4s ease; -webkit-transition: height 0.4s ease; transition: height 0.4s ease; }
 
-.menu-item-link:hover { text-decoration: none; }
+.menu-item-link:hover { text-decoration: none; background-color: #666; color: #fff; }
+
+.menu-name { display: inline-block; overflow: hidden; white-space: nowrap; word-wrap: normal; -o-text-overflow: ellipsis; text-overflow: ellipsis; width: 150px; margin-left: 6px; line-height: 20px; vertical-align: bottom; }
 
 .dropdown { position: absolute; z-index: -1; overflow: visible; height: 0; padding: 10px 0; transition: opacity, height 0.5s ease; opacity: 0; border: 1px solid #D3D3D3; outline: none; background: #FFFFFF; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); }
 
@@ -303,7 +317,9 @@ dialog fieldset input[type="text"] { display: block; margin: 3px 0 0; width: 100
 /** ------------------------------------------------------------------------ Editor ------------------------------------------------------------------------ */
 .editor-container { position: relative; box-sizing: border-box; float: left; }
 
-.editor-preview { float: right; background-color: #fff; }
+.editor { font-size: 18px !important; }
+
+.editor-preview { float: right; box-sizing: border-box; background-color: #fff; }
 
 .ace-twilight .ace_gutter { background: #232323; color: #E2E2E2; }
 
@@ -359,10 +375,8 @@ dialog fieldset input[type="text"] { display: block; margin: 3px 0 0; width: 100
 
 .ace-twilight .ace_indent-guide { background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWMQERFpYLC1tf0PAAgOAnPnhxyiAAAAAElFTkSuQmCC) right repeat-y; }
 
-.ace_editor { width: 50%; height: 100%; }
-
 /** ------------------------------------------------------------------------ Markdown ------------------------------------------------------------------------ */
-.markdown-body { box-sizing: border-box; flex-grow: 1; max-width: 50%; overflow: auto; font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; font-size: 16px; line-height: 1.6; word-wrap: break-word; padding: 8px; }
+.markdown-body { box-sizing: border-box; flex-grow: 1; font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; font-size: 16px; line-height: 1.6; word-wrap: break-word; padding: 8px; }
 
 .markdown-body:before { display: table; content: ""; }
 
@@ -549,6 +563,38 @@ dialog fieldset input[type="text"] { display: block; margin: 3px 0 0; width: 100
 .hide-overflow { overflow: hidden; }
 
 .shadow-inner { border: 1px solid #b9b9b9; border-top-color: #a0a0a0; box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1); -moz-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1); -webkit-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1); }
+
+.vertical-align { white-space: nowrap; }
+
+.vertical-align:before { content: ''; height: 100%; }
+
+.vertical-align:before, .vertical-container { vertical-align: middle; display: inline-block; }
+
+alert-success { background-color: #dff0d8; border-color: #d6e9c6; color: #3c763d; }
+
+.alert-success hr { border-top-color: #c9e2b3; }
+
+.alert-success .alert-link { color: #2b542c; }
+
+.alert-info { background-color: #d9edf7; border-color: #bce8f1; color: #31708f; }
+
+.alert-info hr { border-top-color: #a6e1ec; }
+
+.alert-info .alert-link { color: #245269; }
+
+.alert-warning { background-color: #fcf8e3; border-color: #faebcc; color: #8a6d3b; }
+
+.alert-warning hr { border-top-color: #f7e1b5; }
+
+.alert-warning .alert-link { color: #66512c; }
+
+.alert-danger { background-color: #f2dede; border-color: #ebccd1; color: #a94442; }
+
+.alert-danger hr { border-top-color: #e4b9c0; }
+
+.alert-danger .alert-link { color: #843534; }
+
+.full { position: absolute; top: 0; bottom: 0; right: 0; left: 0; }
 
 /** ------------------------------------------------------------------------ Header ------------------------------------------------------------------------ */
 .header { outline: none; background: white; }

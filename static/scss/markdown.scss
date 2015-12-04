@@ -7,8 +7,6 @@
 .markdown-body {
 	box-sizing: border-box;
 	flex-grow: 1;
-	max-width: 50%;
-	overflow: auto;
 	font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	font-size: 16px;
 	line-height: 1.6;
@@ -383,7 +381,6 @@
 // 	background-color: rgba(0, 0, 0, 0.04);
 // 	border-radius: 3px
 // }
-
 // .markdown-body code:before,
 // .markdown-body code:after,
 // .markdown-body tt:before,
@@ -391,16 +388,13 @@
 // 	letter-spacing: -0.2em;
 // 	content: "\00a0"
 // }
-
 // .markdown-body code br,
 // .markdown-body tt br {
 // 	display: none
 // }
-
 // .markdown-body del code {
 // 	text-decoration: inherit
 // }
-
 // .markdown-body pre>code {
 // 	padding: 0;
 // 	margin: 0;
@@ -493,6 +487,7 @@
 		border: 0;
 	}
 }
+
 .alert {
 	padding: 15px;
 	margin-bottom: 20px;

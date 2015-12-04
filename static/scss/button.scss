@@ -13,6 +13,7 @@
  	vertical-align: middle;
  	cursor: pointer;
  	border-radius: 2px;
+ 	box-sizing: border-box;
  	&:hover {
  		text-decoration: none;
  	}
@@ -70,5 +71,4 @@
  	vertical-align: middle;
  	width: 16px;
  	height: 16px;
-
  }

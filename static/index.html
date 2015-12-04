@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html ng-app="app">
+<html>
 
 <head>
+	<title></title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
 	<meta http-equiv="Content-Language" content="zh">
@@ -9,28 +10,68 @@
 	<link rel="stylesheet" href="scss/index.css">
 </head>
 
-<body ng-controller="MainController">
-	<div id="body-container" style="max-height:100%">
+<body ng-controller="MainController" style="position:relative">
+	<div id="body-container">
 		<div class="header-fixed">
 			<div class="header-container base-gutter clearfix">
 				<div class="horizontal-margin-auto">
 					<div class="header-logo">
-						<button class="btn header-toggle-btn" ng-click="show" slide-toggle=".slide-layout">
+						<button class="btn header-toggle-btn">
 							<span class="btn-ico-wrapper">
 									<i class="btn-ico header-btn-ico">menu</i>
 							</span>
 						</button>
 					</div>
 					<div class="hide-overflow">
-						<div class="header-search">
-							<button class="btn btn-default header-search-button no-shadow">
+						<div class="header-line">
+
+							<button class="command btn btn-default" data-binding="new">
+								<span class="header-search-content">
+									<i class="header-btn-ico">&#xE89C;</i>
+								</span>
+							</button>
+
+
+							<button class="command btn btn-default" data-binding="save">
+								<span class="header-search-content">
+									<i class="header-btn-ico">save</i>
+								</span>
+							</button>
+
+							<button class="command btn btn-default" data-binding="head">
+								<span class="header-search-content">
+									<i class="header-btn-ico">&#xE145;</i>
+								</span>
+							</button>
+
+
+
+							<button class="command btn btn-default" data-binding="bold">
+								<span class="header-search-content">
+									<i class="header-btn-ico">format_bold</i>
+								</span>
+							</button>
+
+							<button class="command btn btn-default" data-binding="italic">
+								<span class="header-search-content">
+									<i class="header-btn-ico">format_italic</i>
+								</span>
+							</button>
+
+							<button class="command btn btn-default" data-binding="code">
+								<span class="header-search-content">
+									<i class="header-btn-ico">code</i>
+								</span>
+							</button>
+
+							<!--<button class="btn btn-default header-search-button no-shadow">
 								<span class="header-search-button-content">
 									<i class="header-btn-ico">search</i>
 								</span>
-							</button>
-							<div class="header-search-input">
+							</button>-->
+							<!--<div class="header-search-input">
 								<input focus-effect type="text">
-							</div>
+							</div>-->
 						</div>
 					</div>
 				</div>
@@ -48,18 +89,19 @@
 		<div class="page-container">
 			<div class="page clearfix">
 				<div class="editor-container">
-					<div class="editor" ace-holder auto-resize offset-top="55" offset-bottom="15" half="1" gutter="10"></div>
+
+					<div class="editor" content="content" offset-top="55" auto-resize half="1" gutter="10"></div>
 				</div>
-				<div class="editor-preview" auto-resize offset-top="55" offset-bottom="15" half="1" gutter="10">
-					<div class="markdown-body" markdown="$parent"></div>
+				<div class="editor-preview" auto-resize offset-top="55" half="1" gutter="10">
+					<div class="markdown-body" markdown content="content"></div>
 				</div>
 			</div>
 		</div>
 
 	</div>
 
-	<script src="js/angular/angular.js"></script>
-	<script src="js/angular/angular-animate.js"></script>
+	<script src="js/marked.js"></script>
+	<script src="js/q.js"></script>
 	<script src="ace/ace.js"></script>
 	<script src="js/index.js"></script>
 </body>

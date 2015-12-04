@@ -1,2 +1,7 @@
-var app = angular.module('app', []);
+ajax.fetch("/query-all").then(function(v) {
+	SlideLayout.refresh(v);
+}, function() {}, function() {});
+
+
+
 

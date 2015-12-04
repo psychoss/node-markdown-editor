@@ -11,8 +11,13 @@
 	//transition: height .5s ease;
 }
 
+.editor {
+	font-size: 18px!important;
+}
+
 .editor-preview {
 	float: right;
+	box-sizing: border-box;
 	background-color: #fff;
 	//transition: height .5s ease;
 }
@@ -151,9 +156,4 @@
 
 .ace-twilight .ace_indent-guide {
 	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWMQERFpYLC1tf0PAAgOAnPnhxyiAAAAAElFTkSuQmCC) right repeat-y;
-}
-
-.ace_editor {
-	width: 50%;
-	height: 100%;
 }

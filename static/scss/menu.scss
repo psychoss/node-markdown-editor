@@ -25,7 +25,9 @@
  	box-sizing: border-box;
  }
  
- .menu {}
+ .menu {
+ 	overflow-y: auto;
+ }
  
  .menu-item {
  	max-height: 40px;
@@ -39,7 +41,27 @@
  	border: none;
  	background: none;
  	white-space: nowrap;
+ 	outline-offset: -5px;
+ 	overflow: hidden;
+ 	-moz-transition: height .4s ease;
+ 	-webkit-transition: height .4s ease;
+ 	transition: height .4s ease;
  	&:hover {
  		text-decoration: none;
+ 		background-color: #666;
+ 		color: #fff;
  	}
+ }
+ 
+ .menu-name {
+ 	display: inline-block;
+ 	overflow: hidden;
+ 	white-space: nowrap;
+ 	word-wrap: normal;
+ 	-o-text-overflow: ellipsis;
+ 	text-overflow: ellipsis;
+ 	width: 150px;
+ 	margin-left: 6px;
+ 	line-height: 20px;
+ 	vertical-align: bottom;
  }
