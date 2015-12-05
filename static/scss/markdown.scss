@@ -456,6 +456,15 @@
 }
 
 .markdown-body {
+	ol {
+		list-style: decimal;
+	}
+	ul {
+		list-style: disc;
+	}
+	strong {
+		font-weight: 700;
+	}
 	pre {
 		font-size: 0.8461538461538462em;
 		font-family: Monaco, monospace, Courier, "Courier New";

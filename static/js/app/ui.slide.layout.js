@@ -30,6 +30,42 @@ var SlideLayout = (function() {
 			slideLayout.addClass('is-active');
 		})
 
+		var searchInput = document.querySelector('.menu-search-input');
+
+		searchInput.addEventListener('click', function(ev) {
+			ev.stopImmediatePropagation()
+		});
+		var timeout;
+
+		searchInput.addEventListener('input', function() {
+			clearTimeout(timeout);
+			timeout = setTimeout(function() {
+				var c = searchInput.value;
+				if (c.trim())
+					filter(c);
+				else {
+					var ls = note_list.children;
+					for (l = ls.length; l--;) {
+						ls[l].setAttribute('style', '');
+					}
+				}
+			}, 50);
+		})
+	}
+
+	function filter(v) {
+		v = eval('/' + v + '/i')
+		var ls = note_list.children;
+		for (l = ls.length; l--;) {
+			var c = ls[l];
+			var vc = c.children[0].getAttribute('title');
+
+			if (!~vc.search(v)) {
+				c.style.display = 'none';
+			} else {
+				ls[l].setAttribute('style', '');
+			}
+		}
 	}
 
 	function resize() {

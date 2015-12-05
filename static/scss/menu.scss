@@ -6,8 +6,6 @@
  	visibility: hidden;
  	// left: -230px;
  	// opacity: 0;
- 	-moz-transition: opacity .1s, visibility 0s .1s;
- 	-webkit-transition: opacity .1s, visibility 0s .1s;
  	transition: opacity .1s, visibility 0s .1s;
  	box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, .1);
  	box-sizing: border-box;
@@ -72,13 +70,21 @@
  	margin-bottom: 6px;
  }
  
+ .menu-search-container {
+ 	padding: 10px 0;
+ 	border-bottom: 1px solid #ebebeb;
+ 	margin-bottom: 3px;
+ }
+ 
+ .menu-search-input {
+ 	display: block;
+ 	width: 100%;
+ }
+ 
  .dropdown {
  	.menu {
- 		webkit-border-radius: 3px;
  		border-radius: 3px;
- 		-webkit-box-shadow: 0 2px 40px rgba(0, 0, 0, .4);
  		box-shadow: 0 2px 40px rgba(0, 0, 0, .4);
- 		-webkit-transition: opacity .218s;
  		transition: opacity .218s;
  		background: #fff;
  		border: 1px solid #ccc;

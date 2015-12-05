@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title></title>
+	<title>New Note</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
 	<meta http-equiv="Content-Language" content="zh">
@@ -64,6 +64,18 @@
 								</span>
 							</button>
 
+							<button class="command btn btn-default" data-binding="bulleted">
+								<span class="header-search-content">
+									<i class="header-btn-ico">format_list_bulleted</i>
+								</span>
+							</button>
+							
+							<button class="command btn btn-default" data-binding="numeric">
+								<span class="header-search-content">
+									<i class="header-btn-ico">&#xE242;</i>
+								</span>
+							</button>
+							
 							<button class="command btn btn-default" data-binding="preview">
 								<span class="header-search-content">
 									<i class="header-btn-ico">&#xE54B;</i>
@@ -75,9 +87,9 @@
 									<i class="header-btn-ico">&#xE5CF;</i>
 								</span>
 								<ul class="menu">
-									
+
 									<li class="command menu-item" data-binding="fmtToarray">
-											Format to Array
+										Format to Array
 									</li>
 								</ul>
 							</button>
@@ -97,8 +109,10 @@
 
 		<div class="slide-layout">
 			<div class="slide-content">
-				<ul class=" menu">
-					<li class="menu-item"><a class="menu-item-link">asdasddad</a></li>
+				<div class="menu-search-container">
+					<input class="menu-search-input" placeholder="filter">
+				</div>
+				<ul class=" menu" id="note_list">
 				</ul>
 			</div>
 		</div>
@@ -120,6 +134,7 @@
 	<script src="js/marked.js"></script>
 	<script src="js/q.js"></script>
 	<script src="ace/ace.js"></script>
+	<script src="ace/ext/ext-language_tools.js"></script>
 	<script src="js/index.js"></script>
 </body>
 

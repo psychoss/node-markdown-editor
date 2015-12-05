@@ -9,7 +9,6 @@ var ajax = (function() {
 	function fetch(url, options) {
 		options = options || {};
 		extend(options, j.defaluts);
-		console.log(options);
 		return Q.Promise(function(resolve, reject, notify) {
 
 

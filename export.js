@@ -19,7 +19,7 @@ class Manager {
 		  row.forEach((k)=>{
 			//console.log(this_.validFileName(k['title']));
 
-			fs.writeFile("test/"+this_.validFileName(k['title'])+".md",k['content']);
+			fs.writeFile("test/export/"+this_.validFileName(k['title'])+".md",k['content']);
 		  
 		  })
 		})

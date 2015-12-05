@@ -13,7 +13,7 @@
 			window.addEventListener('resize', this.init.bind(this));
 		}
 		var l = this.es.length;;
-		while (l--) {
+		for (; l--;) {
 			this.resize(this.es[l]);
 		}
 		//this.es = es;
@@ -30,7 +30,6 @@
 		e.style.marginTop = ot + 'px';
 
 		e.style.height = (window.innerHeight - ot - ob - sy) + "px";
-		$log.d(e, window.innerHeight, ot, ob, sy, (window.innerHeight - ot - ob - sy))
 	}
 
 	new AutoSize();
