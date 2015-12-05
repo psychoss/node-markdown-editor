@@ -17,8 +17,8 @@
 整个程序的样式文件和 JavaScript 的尽量避免使用第三方代码，再者，尽量使用了最新的技术，目的是做一次彻底的尝试的同时，制作一个自己能完全控制的笔记软件。
 
 
-
-
-
+![](screenshot/Screenshot from 2015-12-05 14:58:24.png)
+![](screenshot/Screenshot from 2015-12-05 14:58:37.png)
+![](screenshot/Screenshot from 2015-12-05 14:59:03.png)
 
 		
