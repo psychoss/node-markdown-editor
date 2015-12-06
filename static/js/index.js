@@ -211,10 +211,13 @@ ajax.fetch("/query-all").then(function(v) {
 	SlideLayout.refresh(v);
 }, function() {}, function() {});
 
-
-
-
-
+document.addEventListener('keydown', function(ev) {
+	var k = (ev.which || ev.keyCode);
+	if (k === 8 || k === 116) {
+		ev.preventDefault();
+	}
+	console.log(ev);
+})
 
 
 ;
@@ -284,8 +287,25 @@ ajax.fetch("/query-all").then(function(v) {
  		 */
  	e.configs.markdown = document.querySelector('.markdown-body');
  	e.on('change', function() {
+ 		status(1);
  		e.configs.markdown.innerHTML = marked(e.getValue().trim());
  	})
+
+ 	/**
+ 	 * ------------------------------------------------------------------------
+ 	 * Status
+ 	 * ------------------------------------------------------------------------
+ 	 */
+
+ 	function status(changed) {
+
+ 		if (changed && !commandSave.classList.contains('careful')) {
+ 			commandSave.classList.add('careful');
+ 		} else {
+ 			commandSave.classList.contains('careful') && commandSave.classList.remove('careful');
+ 		}
+
+ 	}
 
  	/**
  	 * ------------------------------------------------------------------------
@@ -371,10 +391,12 @@ ajax.fetch("/query-all").then(function(v) {
  				ajax.fetch("/put-note", {
  					data: JSON.stringify(datas)
  				}).then(function(v) {
+ 					status(0);
+ 					console.log("the di return by server is " + v);
  					if (+v !== 0) {
+ 						console.log("changed the body data-binding");
  						document.body.setAttribute('data-binding', v)
  					}
- 					$log.d("return by the server=>", v);
  					Notifier.show("Success.", {
  						style: 'alert-success'
  					});
@@ -483,7 +505,20 @@ ajax.fetch("/query-all").then(function(v) {
  					}, i + ". ");
  					i++;
  				}
+ 			},
+ 			removeEmpty: function() {
+ 				var str = selectedText().split('\n');
+ 				str = str.filter(function(v) {
+ 					return v.trim()
+ 				})
+
+ 				replaceSelectedText(str.join('\n'));
+ 			},
+ 			blockquote: function() {
+ 				var str = selectedText().split('\n');
+ 				replaceSelectedText(">" + str.join('\n>\n>'));
  			}
+
  		}
  		/**
  		 * ------------------------------------------------------------------------
@@ -541,7 +576,14 @@ ajax.fetch("/query-all").then(function(v) {
  	}, {
  		name: 'numeric',
  		exec: commands.numeric
+ 	}, {
+ 		name: 'removeEmpty',
+ 		exec: commands.removeEmpty
+ 	}, {
+ 		name: 'blockquote',
+ 		exec: commands.blockquote
  	}]
+
 
  	/**
  	 * ------------------------------------------------------------------------

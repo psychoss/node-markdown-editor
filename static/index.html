@@ -32,7 +32,7 @@
 							</button>
 
 
-							<button class="command btn btn-default" data-binding="save">
+							<button class="command btn btn-default" id="commandSave" data-binding="save">
 								<span class="header-search-content">
 									<i class="header-btn-ico">save</i>
 								</span>
@@ -69,13 +69,13 @@
 									<i class="header-btn-ico">format_list_bulleted</i>
 								</span>
 							</button>
-							
+
 							<button class="command btn btn-default" data-binding="numeric">
 								<span class="header-search-content">
 									<i class="header-btn-ico">&#xE242;</i>
 								</span>
 							</button>
-							
+
 							<button class="command btn btn-default" data-binding="preview">
 								<span class="header-search-content">
 									<i class="header-btn-ico">&#xE54B;</i>
@@ -87,9 +87,14 @@
 									<i class="header-btn-ico">&#xE5CF;</i>
 								</span>
 								<ul class="menu">
-
+									<li class="command menu-item" data-binding="blockquote">
+										Blockquote
+									</li>
 									<li class="command menu-item" data-binding="fmtToarray">
 										Format to Array
+									</li>
+									<li class="command menu-item" data-binding="removeEmpty">
+										Remove the Empty Lines
 									</li>
 								</ul>
 							</button>

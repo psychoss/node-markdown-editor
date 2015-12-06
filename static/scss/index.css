@@ -220,7 +220,7 @@ dialog fieldset input[type="text"] { display: block; margin: 3px 0 0; width: 100
 
 .dropdown .menu { border-radius: 3px; box-shadow: 0 2px 40px rgba(0, 0, 0, 0.4); transition: opacity .218s; background: #fff; border: 1px solid #ccc; border: 1px solid rgba(0, 0, 0, 0.2); cursor: default; font-size: 13px; margin: 0; outline: none; padding: 6px 0; position: absolute; z-index: 21; visibility: hidden; }
 
-.dropdown .menu .menu-item { position: relative; color: #333; cursor: pointer; list-style: none; margin: 0; padding: 6px 8em 6px 30px; white-space: nowrap; outline: none; -webkit-user-select: none; }
+.dropdown .menu .menu-item { position: relative; color: #333; cursor: pointer; list-style: none; margin: 0; padding: 6px 8em 6px 30px; white-space: nowrap; outline: none; -webkit-user-select: none; text-align: left; }
 
 .dropdown .menu .menu-item:hover { background-color: #e8e8e8; }
 
@@ -597,6 +597,8 @@ alert-success { background-color: #dff0d8; border-color: #d6e9c6; color: #3c763d
 .full-absolute { position: absolute; top: 0; bottom: 0; right: 0; left: 0; }
 
 .full-width { width: 100% !important; }
+
+.careful { border-bottom: 1px solid crimson !important; }
 
 /** ------------------------------------------------------------------------ Header ------------------------------------------------------------------------ */
 .header { outline: none; background: white; }
