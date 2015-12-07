@@ -213,10 +213,13 @@ ajax.fetch("/query-all").then(function(v) {
 
 document.addEventListener('keydown', function(ev) {
 	var k = (ev.which || ev.keyCode);
-	if (k === 8 || k === 116) {
+	if (k === 8 && ev.target.tagName !== 'INPUT') {
 		ev.preventDefault();
 	}
-	console.log(ev);
+	if (k === 116) {
+		console.log(ev)
+		ev.preventDefault();
+	}
 })
 
 
@@ -301,7 +304,7 @@ document.addEventListener('keydown', function(ev) {
 
  		if (changed && !commandSave.classList.contains('careful')) {
  			commandSave.classList.add('careful');
- 		} else {
+ 		}  else if(!changed && commandSave.classList.contains('careful')) {
  			commandSave.classList.contains('careful') && commandSave.classList.remove('careful');
  		}
 
@@ -400,7 +403,12 @@ document.addEventListener('keydown', function(ev) {
  					Notifier.show("Success.", {
  						style: 'alert-success'
  					});
- 					document.querySelector('title').innerHTML = title;
+ 					if (document.querySelector('title').innerHTML !== title) {
+ 						document.querySelector('title').innerHTML = title;
+ 						ajax.fetch("/query-all").then(function(v) {
+ 							SlideLayout.refresh(v);
+ 						}, function() {}, function() {});
+ 					}
  				}, function() {
 
  					Notifier.show("Failed to save the data", {
@@ -517,6 +525,23 @@ document.addEventListener('keydown', function(ev) {
  			blockquote: function() {
  				var str = selectedText().split('\n');
  				replaceSelectedText(">" + str.join('\n>\n>'));
+ 			},
+ 			customList: function() {
+ 				var str = selectedText().trim().split('\n');
+ 				var c = "";
+ 				var line = "";
+ 				console.log(str);
+ 				for (var l = 0; l < str.length; l++) {
+ 					line = str[l]
+ 					console.log(line);
+ 					if (l % 2 === 0) {
+ 						c += "- **" + line + "**\n\n"
+ 					} else {
+ 						c += " " + line + "\n\n"
+ 					}
+ 				}
+
+ 				replaceSelectedText(c);
  			}
 
  		}
@@ -582,8 +607,10 @@ document.addEventListener('keydown', function(ev) {
  	}, {
  		name: 'blockquote',
  		exec: commands.blockquote
+ 	}, {
+ 		name: 'customList',
+ 		exec: commands.customList
  	}]
-
 
  	/**
  	 * ------------------------------------------------------------------------

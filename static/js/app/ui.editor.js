@@ -41,7 +41,7 @@
 
  		if (changed && !commandSave.classList.contains('careful')) {
  			commandSave.classList.add('careful');
- 		} else {
+ 		}  else if(!changed && commandSave.classList.contains('careful')) {
  			commandSave.classList.contains('careful') && commandSave.classList.remove('careful');
  		}
 
@@ -140,7 +140,12 @@
  					Notifier.show("Success.", {
  						style: 'alert-success'
  					});
- 					document.querySelector('title').innerHTML = title;
+ 					if (document.querySelector('title').innerHTML !== title) {
+ 						document.querySelector('title').innerHTML = title;
+ 						ajax.fetch("/query-all").then(function(v) {
+ 							SlideLayout.refresh(v);
+ 						}, function() {}, function() {});
+ 					}
  				}, function() {
 
  					Notifier.show("Failed to save the data", {
@@ -257,6 +262,23 @@
  			blockquote: function() {
  				var str = selectedText().split('\n');
  				replaceSelectedText(">" + str.join('\n>\n>'));
+ 			},
+ 			customList: function() {
+ 				var str = selectedText().trim().split('\n');
+ 				var c = "";
+ 				var line = "";
+ 				console.log(str);
+ 				for (var l = 0; l < str.length; l++) {
+ 					line = str[l]
+ 					console.log(line);
+ 					if (l % 2 === 0) {
+ 						c += "- **" + line + "**\n\n"
+ 					} else {
+ 						c += " " + line + "\n\n"
+ 					}
+ 				}
+
+ 				replaceSelectedText(c);
  			}
 
  		}
@@ -322,8 +344,10 @@
  	}, {
  		name: 'blockquote',
  		exec: commands.blockquote
+ 	}, {
+ 		name: 'customList',
+ 		exec: commands.customList
  	}]
-
 
  	/**
  	 * ------------------------------------------------------------------------
