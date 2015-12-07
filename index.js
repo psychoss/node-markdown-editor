@@ -9,7 +9,7 @@ const database = require('./lib/database');
 
 const db = new database(database.open(config.sqlitePath), config.sql_insert);
 const routes = {
-	index: function* () {
+	index: function*() {
 		this.body = "hello"
 	}
 }
@@ -29,7 +29,7 @@ class Router {
 		this.init();
 	}
 	init() {
-		this.app.use(kr.post("/put-note", function* () {
+		this.app.use(kr.post("/put-note", function*() {
 			try {
 				let id = yield db.upsert(this.request.body);
 				console.log("id" + id);
@@ -40,7 +40,7 @@ class Router {
 			}
 		}));
 
-		this.app.use(kr.post('/query-all', function* () {
+		this.app.use(kr.post('/query-all', function*() {
 			try {
 				let rows = yield db.queryAll();
 				this.body = JSON.stringify(rows);
@@ -51,15 +51,28 @@ class Router {
 
 		}));
 
-		this.app.use(kr.post('/query-one', function* () {
+		this.app.use(kr.post('/query-one', function*() {
 			try {
 				let datas = yield db.queryOne(this.request.body.id);
-				this.body=JSON.stringify(datas);
+				this.body = JSON.stringify(datas);
+			} catch (error) {
+				this.status = 500;
+				this.body = err;
+			}
+		}));
+
+		this.app.use(kr.post('/search', function*() {
+			console.log("searching'");
+			try {
+				let datas = yield db.search(this.request.body.search);
+				this.body = JSON.stringify(datas);
 			} catch (error) {
 				this.status = 500;
 				this.body = err;
 			}
 		}))
+
+
 	}
 }
 

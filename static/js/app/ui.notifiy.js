@@ -37,12 +37,12 @@ var Notifier = (function() {
 
 		var n = notifier.instance;
 		n.innerHTML = notifier.template.join("\n").fmt(message);
-		
+
 		// var throttle = notifier.defaults.offsetTop;
 		// var offset = window.innerHeight - (throttle * 2);
 		// var step = Math.ceil(offset / (notifier.animationDuration / 25));
 		// $log.d("offset", offset, throttle, step)
-		n.classList.add(notifier.defaults.style);
+		n.setAttribute('type', notifier.defaults.style);
 		//n.style.opacity = 0;
 		// var animation = function() {
 		// 	// if (offset > throttle) {

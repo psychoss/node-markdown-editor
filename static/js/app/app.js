@@ -12,3 +12,35 @@ document.addEventListener('keydown', function(ev) {
 		ev.preventDefault();
 	}
 })
+
+var $search = (function() {
+
+	function Search(ele) {
+		this.ele = $(ele);
+		this.init();
+	}
+	Search.prototype.CONST = {
+		modal: '.modal',
+		modalVisible: 'modal-is-visible',
+		modalSearch: '.input'
+	}
+	Search.prototype.init = function() {
+		if (!this.ele) return;
+		this.modal = $(document.querySelector(this.CONST.modal));
+		this.modalInput = $(this.modal.find(this.CONST.modalSearch));
+		this.ele.on('click', function() {
+			this.modal.addClass(this.CONST.modalVisible);
+		}.bind(this));
+		this.modalInput.on('input', function() {
+			window.$ajax.request('/search', {
+				body: JSON.stringify({
+					search: 1
+				})
+			});
+		}.bind(this))
+	}
+	Search.prototype.search = function() {
+
+	}
+	$search = new Search(search);
+}());

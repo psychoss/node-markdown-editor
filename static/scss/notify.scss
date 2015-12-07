@@ -1,0 +1,17 @@
+$z-index-notify:25;
+.notify {
+	//, min-height .7s cubic-bezier(0.175, 0.885, 0.320, 1.275);
+	max-width: 15rem;
+	padding: 1rem;
+	left: 50%;
+	transform: translateX(-50%);
+	position: absolute;
+	//top: 300px;
+	bottom: 110%;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);
+	transition: transform 1s cubic-bezier(0.175, 0.885, 0.320, 1.275);
+	z-index: $z-index-notify;
+	&.show {
+		transform: translate(-50%, 30vh) //top: 3rem;
+	}
+}

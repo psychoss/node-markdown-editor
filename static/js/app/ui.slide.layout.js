@@ -69,7 +69,7 @@ var SlideLayout = (function() {
 	}
 
 	function resize() {
-		sl.ele.css('max-height', (window.innerHeight - 30) + 'px');
+		sl.ele.css('max-height', (window.innerHeight - 60) + 'px');
 	}
 
 	function bindLinks() {

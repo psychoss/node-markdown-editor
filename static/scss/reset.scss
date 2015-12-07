@@ -426,20 +426,3 @@ $z-index-header:20;
 	-webkit-font-smoothing: antialiased;
 }
 
-$z-index-notify:25;
-.notify {
-	//, min-height .7s cubic-bezier(0.175, 0.885, 0.320, 1.275);
-	max-width: 300px;
-	padding: 10px;
-	left: 50%;
-	transform: translateX(-50%);
-	position: absolute;
-	//top: 300px;
-	top: -300px;
-	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);
-	transition: top 1s cubic-bezier(0.175, 0.885, 0.320, 1.275);
-	z-index: $z-index-notify;
-	&.show {
-		top: 30px;
-	}
-}

@@ -1,9 +1,7 @@
 @import 'mixin/clearfix';
 @import 'mixin/shadow';
-
-
+@import 'mixin/z-index';
 @import 'shadow';
-
 @import 'variable';
 @import 'font';
 @import 'reset';
@@ -18,6 +16,8 @@
 @import 'editor';
 @import 'markdown';
 @import 'utilities';
+@import 'notify';
+@import 'modal';
 
 /**
  * ------------------------------------------------------------------------
@@ -43,7 +43,6 @@
 	flex-direction: row;
 	width: 100%;
 	height: #{"calc( 100% - 37px)"};
-	
 }
 
 
@@ -152,10 +151,6 @@
 	outline: none;
 	background: 0;
 }
-
-
-
-
 
 
 /**

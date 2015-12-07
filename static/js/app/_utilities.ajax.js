@@ -41,3 +41,33 @@ var ajax = (function() {
 	j.fetch = fetch;
 	return j;
 }());
+
+
+;
+(function() {
+
+	function Ajax() {
+
+	}
+	Ajax.prototype.CONST = {
+		method: 'POST',
+		headers: new Headers
+	}
+
+	Ajax.prototype.request = function(url, options) {
+		options = options || {};
+		options.method = options.method || this.CONST.method;
+		options.body = options.body || "";
+
+		console.log(options.body);
+		var r = new Request(url);
+
+		return fetch(r, {
+			method: options.method,
+			body: options.body
+		})
+
+	}
+
+	window.$ajax = new Ajax();
+}());

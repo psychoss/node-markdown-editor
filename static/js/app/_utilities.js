@@ -12,7 +12,9 @@ var $ = (function() {
 		el.all = function(selector) {
 			return $(el.querySelectorAll(selector));
 		};
-
+		el.find = function(selector) {
+			return el.querySelector(selector);
+		}
 		el.each = function(fn) {
 			for (var i = 0, len = el.length; i < len; ++i) {
 				fn($(el[i]), i);

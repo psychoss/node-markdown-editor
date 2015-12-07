@@ -82,6 +82,12 @@
 								</span>
 							</button>
 
+							<button class="btn btn-default" id="search">
+								<span class="header-search-content">
+									<i class="header-btn-ico">search</i>
+								</span>
+							</button>
+							
 							<button class="btn btn-default dropdown">
 								<span class="header-search-content">
 									<i class="header-btn-ico">&#xE5CF;</i>
@@ -139,12 +145,26 @@
 		</div>
 
 	</div>
+	
+	<div class="modal">
+		<div class="modal-content">
+			<div class="input-line">
+				<input class="input input-offset " type="text">
+				<button class="btn btn-default">Search</button>
+				</div>
+		</div>
+	</div>
 
 	<script src="js/marked.js"></script>
 	<script src="js/q.js"></script>
 	<script src="ace/ace.js"></script>
 	<script src="ace/ext/ext-language_tools.js"></script>
 	<script src="js/index.js"></script>
+	<!--<script>
+		setTimeout(function(){
+			document.querySelector('.modal').classList.add('modal-is-visible');
+		},2000)
+		</script>-->
 </body>
 
 </html>

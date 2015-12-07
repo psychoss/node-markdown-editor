@@ -43,6 +43,57 @@ var ajax = (function() {
 }());
 
 
+;
+(function() {
+
+	function Ajax() {
+
+	}
+	Ajax.prototype.CONST = {
+		method: 'POST',
+		headers: new Headers
+	}
+
+	Ajax.prototype.request = function(url, options) {
+		options = options || {};
+		options.method = options.method || this.CONST.method;
+		options.body = options.body || "";
+
+		console.log(options.body);
+		var r = new Request(url);
+
+		return fetch(r, {
+			method: options.method,
+			body: options.body
+		})
+
+	}
+
+	window.$ajax = new Ajax();
+}());
+
+
+var $animation = (function() {
+
+	var _ = {
+
+	};
+
+	function animate(ele, keyframe, duration) {
+		if ('animate' in ele) {
+			ele.animate(keyframe, duration);
+		}
+	}
+
+	_.animate = animate;
+	return _;
+
+
+}());
+
+
+
+
 var extend = (function() {
 	return function(destination, source) {
 
@@ -69,7 +120,9 @@ var $ = (function() {
 		el.all = function(selector) {
 			return $(el.querySelectorAll(selector));
 		};
-
+		el.find = function(selector) {
+			return el.querySelector(selector);
+		}
 		el.each = function(fn) {
 			for (var i = 0, len = el.length; i < len; ++i) {
 				fn($(el[i]), i);
@@ -221,6 +274,38 @@ document.addEventListener('keydown', function(ev) {
 		ev.preventDefault();
 	}
 })
+
+var $search = (function() {
+
+	function Search(ele) {
+		this.ele = $(ele);
+		this.init();
+	}
+	Search.prototype.CONST = {
+		modal: '.modal',
+		modalVisible: 'modal-is-visible',
+		modalSearch: '.input'
+	}
+	Search.prototype.init = function() {
+		if (!this.ele) return;
+		this.modal = $(document.querySelector(this.CONST.modal));
+		this.modalInput = $(this.modal.find(this.CONST.modalSearch));
+		this.ele.on('click', function() {
+			this.modal.addClass(this.CONST.modalVisible);
+		}.bind(this));
+		this.modalInput.on('input', function() {
+			window.$ajax.request('/search', {
+				body: JSON.stringify({
+					search: 1
+				})
+			});
+		}.bind(this))
+	}
+	Search.prototype.search = function() {
+
+	}
+	$search = new Search(search);
+}());
 
 
 ;
@@ -683,12 +768,12 @@ var Notifier = (function() {
 
 		var n = notifier.instance;
 		n.innerHTML = notifier.template.join("\n").fmt(message);
-		
+
 		// var throttle = notifier.defaults.offsetTop;
 		// var offset = window.innerHeight - (throttle * 2);
 		// var step = Math.ceil(offset / (notifier.animationDuration / 25));
 		// $log.d("offset", offset, throttle, step)
-		n.classList.add(notifier.defaults.style);
+		n.setAttribute('type', notifier.defaults.style);
 		//n.style.opacity = 0;
 		// var animation = function() {
 		// 	// if (offset > throttle) {
@@ -795,7 +880,7 @@ var SlideLayout = (function() {
 	}
 
 	function resize() {
-		sl.ele.css('max-height', (window.innerHeight - 30) + 'px');
+		sl.ele.css('max-height', (window.innerHeight - 60) + 'px');
 	}
 
 	function bindLinks() {
