@@ -591,6 +591,10 @@ dialog fieldset input[type="text"] { display: block; margin: 3px 0 0; width: 100
 
 .modal-content { padding: 1.5rem; }
 
+.modal-list li { padding: 10px 0; max-width: 100%; overflow: hidden; height: 2rem; background-color: #fff; }
+
+.modal-list p { font-size: 0.75rem; }
+
 .input-line { display: flex; flex-direction: row; }
 
 .input { height: 28px; box-sizing: border-box; padding: 0; outline: none; flex-grow: 1; }
