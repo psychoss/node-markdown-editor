@@ -1,44 +1,56 @@
 .modal {
 	@include index('modal');
 	//bottom: 110%;
+	//opacity: 0;
+	//top: -50%;
+	//transition: top, opacity, .5s ease-in-out;
 	background-color: #fafafa;
 	border-radius: 2px;
-	box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21);
+	box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
 	left: 0;
 	margin: auto;
 	max-height: 70%;
-	opacity: 0;
 	overflow-y: auto;
 	padding: 0;
 	position: fixed;
 	right: 0;
-	top: -50%;
-	transition: top, opacity, .5s ease-in-out;
 	width: 55%;
 	will-change: top, opacity;
 }
 
-.modal-is-visible {
-	opacity: 1;
-	top: 10%;
-}
-
+// .modal-shadow {
+// 	box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21);
+// }
+// .modal-is-visible {
+// 	opacity: 1;
+// 	top: 10%;
+// }
 .modal-content {
 	padding: 1.5rem;
 }
 
 .modal-list {
-	li {
-		padding: 10px 0;
-		max-width: 100%;
-		overflow: hidden;
-		height: 2rem;
-		background-color: #fff;
+	margin-top: 1.5rem;
+}
+
+.modal-item {
+	padding: 10px;
+	max-width: 100%;
+	box-sizing: padding-box;
+	background-color: #fff;
+	&:hover {
+		background-color: #e5e5e5;
 	}
-	& p {
-		font-size: 0.75rem;
-		//white-space: nowrap;
-		//text-overflow: ellipsis;
+}
+
+.modal-link {
+	color: #333;
+	display: block;
+	word-break: break-all;
+	overflow: hidden;
+	height: 2rem;
+	&:hover {
+		text-decoration: none;
 	}
 }
 
@@ -58,4 +70,9 @@
 
 .input-offset {
 	margin-right: 10px;
+}
+
+.modal .btn-close {
+	right: 5px;
+	top: 5px;
 }

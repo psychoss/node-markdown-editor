@@ -72,3 +72,19 @@
  	width: 16px;
  	height: 16px;
  }
+ 
+ .btn-close {
+ 	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAQCAYAAAAiYZ4HAAAAnklEQVQoU51SgQ1AQBBjA5tgAzaxAaOwgU0YgU2MoBWV/5IIkuZz/+31ey9NPn7pR37yW9DAqQVqYDPXDPUEDMAohwVFDnANRSIX2F+BQgIezCaiETuLXNE9zOAiCiIyNzx0KOI5r3F0Vq4nga5BjmeKHDwgBbdBhKE9IAU+iCu0xup39kGUcmjQrfOAZ1CJetTXw2kIr+vvf+m1swg7oU0qES+PnZ0AAAAASUVORK5CYII=);
+ 	color: #ccc;
+ 	cursor: pointer;
+ 	float: right;
+ 	height: 16px;
+ 	opacity: .2;
+ 	position: absolute;
+ 	width: 12px;
+ 	transition: opacity .35s ease;
+ 	will-change: opacity;
+ 	&:hover {
+ 		opacity: .6;
+ 	}
+ }

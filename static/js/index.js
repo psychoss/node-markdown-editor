@@ -1,4 +1,4 @@
-var ajax = (function() {
+var $ajax = (function() {
 	var j = {
 		defaluts: {
 			method: 'POST'
@@ -40,36 +40,6 @@ var ajax = (function() {
 	}
 	j.fetch = fetch;
 	return j;
-}());
-
-
-;
-(function() {
-
-	function Ajax() {
-
-	}
-	Ajax.prototype.CONST = {
-		method: 'POST',
-		headers: new Headers
-	}
-
-	Ajax.prototype.request = function(url, options) {
-		options = options || {};
-		options.method = options.method || this.CONST.method;
-		options.body = options.body || "";
-
-		console.log(options.body);
-		var r = new Request(url);
-
-		return fetch(r, {
-			method: options.method,
-			body: options.body
-		})
-
-	}
-
-	window.$ajax = new Ajax();
 }());
 
 
@@ -164,12 +134,16 @@ var $ = (function() {
 
 var $log = (function() {
 	var l = {}
+	l.turnoff = 1;
 
 	function d() {
-		console.log("Debug: ", arguments);
+		if (l.turnoff ^ 0)
+			console.trace(" Debug: ", arguments);
 	}
-	function e(){
-		console.error("Error:",arguments);
+
+	function e() {
+		if (l.turnoff ^ 0)
+			console.error("Error:", arguments);
 	}
 	l.d = d;
 	return l;
@@ -272,95 +246,6 @@ var $log = (function() {
 }());
 
 
-ajax.fetch("/query-all").then(function(v) {
-	SlideLayout.refresh(v);
-}, function() {}, function() {});
-
-document.addEventListener('keydown', function(ev) {
-	var k = (ev.which || ev.keyCode);
-	if (k === 8 && ev.target.tagName !== 'INPUT') {
-		ev.preventDefault();
-	}
-	if (k === 116) {
-		console.log(ev)
-		ev.preventDefault();
-	}
-})
-
-var $search = (function() {
-
-	function Search(ele) {
-		this.ele = $(ele);
-		this.init();
-	}
-	Search.prototype.CONST = {
-		modal: '.modal',
-		modalVisible: 'modal-is-visible',
-		modalSearch: '.input',
-		modalList: '.modal-list'
-	}
-	Search.prototype.init = function() {
-		if (!this.ele) return;
-		this.modal = $(document.querySelector(this.CONST.modal));
-		this.modalInput = $(this.modal.find(this.CONST.modalSearch));
-		thsi.modalList=document.querySelector(this_.CONST.modalList);
-		this.ele.on('click', function() {
-			this.modal.addClass(this.CONST.modalVisible);
-		}.bind(this));
-		this.modalInput.on('keydown', function(ev) {
-			if (ev.keyCode === 13) {
-				var searchText = this.modalInput.value.trim();
-				if (searchText) {
-					this.search(searchText);
-				}
-			}
-
-		}.bind(this))
-	}
-	Search.prototype.search = function(v) {
-		var this_ = this;
-		console.log(v);
-		window.$ajax.request('/search', {
-			body: JSON.stringify({
-				search: v
-			})
-		}).then(function(rsp) {
-			rsp.text().then(function(text) {
-				var l = 
-				l.innerHTML = ""
-				l.innerHTML = this_.template(JSON.parse(text))
-
-			}, function() {
-
-			})
-		}, function() {
-
-		});
-	}
-	Search.prototype.template = function(datas) {
-		var content = "";
-		var noteItem = "<li><a data-binding=\"{_id}\">{content}</a></li>";
-		var template = /{([a-zA-Z_\-0-9]+)}/g;
-		var line = function(data) {
-			return noteItem.replace(template, function(m, g) {
-				if (g === "_id")
-					return data[g];
-				return data[g].escapeHTML();
-			})
-		}
-
-		for (var index = 0, l = datas.length; index < l; index++) {
-			content += line(datas[index]);
-		}
-		return content;
-	}
-	Search.prototype.bindEvent=function(){
-		
-	}
-	$search = new Search(search);
-}());
-
-
 ;
 (function() {
 	function AutoSize() {
@@ -442,7 +327,7 @@ var $search = (function() {
 
  		if (changed && !commandSave.classList.contains('careful')) {
  			commandSave.classList.add('careful');
- 		}  else if(!changed && commandSave.classList.contains('careful')) {
+ 		} else if (!changed && commandSave.classList.contains('careful')) {
  			commandSave.classList.contains('careful') && commandSave.classList.remove('careful');
  		}
 
@@ -454,7 +339,7 @@ var $search = (function() {
  	 * ------------------------------------------------------------------------
  	 */
  	function getContent(id) {
- 		ajax.fetch("/query-one", {
+ 		$ajax.fetch("/query-one", {
  			data: JSON.stringify({
  				id: id
  			})
@@ -529,7 +414,7 @@ var $search = (function() {
  				}
  				$log.d("the datas to database=>", datas);
 
- 				ajax.fetch("/put-note", {
+ 				$ajax.fetch("/put-note", {
  					data: JSON.stringify(datas)
  				}).then(function(v) {
  					status(0);
@@ -782,6 +667,91 @@ var $search = (function() {
  }());
 
 
+var $Modal = (function() {
+
+	function Modal(ele) {
+		if (!ele) return;
+		this.ele = ele;
+
+		this.init()
+	}
+	Modal.prototype.CONST = {
+		DURATION: 500,
+		status: 0
+	}
+	Modal.prototype.init = function() {
+		this.close = this.ele.querySelector('.btn-close');
+
+		this.close.addEventListener('click', this.hide.bind(this))
+
+	}
+	Modal.prototype.hide = function() {
+		var this_ = this;
+		this.CONST.status = 0;
+		this.animate({
+			easing: TWEEN.Easing.Quadratic.Out,
+			duration: 450,
+			mapFrom: {
+				top: 50
+			},
+			mapTo: {
+				top: -this_.ele.clientHeight * 1.2
+			},
+			onupdate: function() {
+				this_.ele.style.top = this.top + "px"
+			}
+		})
+	}
+	Modal.prototype.show = function() {
+
+		var this_ = this;
+		if (this.CONST.status) {
+			return;
+		}
+		this.CONST.status = 1;
+		this.animate({
+			easing: TWEEN.Easing.Quadratic.In,
+			duration: 450,
+			mapFrom: {
+				top: -this_.ele.clientHeight * 1.2
+			},
+			mapTo: {
+				top: 50
+			},
+			onupdate: function() {
+				this_.ele.style.top = this.top + "px"
+			}
+		})
+	}
+	Modal.prototype.animate = function(animateDatas) {
+
+		var duration = animateDatas.duration || this.CONST.DURATION;
+		var easing = animateDatas.easing || TWEEN.Easing.Linear.None;
+
+		var onComplete = animateDatas.oncomplete || function() {
+			TWEEN.removeAll();
+		}
+		var tween = new TWEEN.Tween(animateDatas.mapFrom)
+			.to(animateDatas.mapTo, duration)
+			.onUpdate(animateDatas.onupdate)
+			.onComplete(onComplete)
+			.easing(easing)
+			.start();
+
+		requestAnimationFrame(animate);
+
+		function animate(time) {
+			requestAnimationFrame(animate);
+			TWEEN.update(time);
+		}
+	}
+	Modal.prototype.find = function(selector) {
+		return this.ele.querySelector(selector);
+	}
+	return Modal;
+}());
+
+
 var Notifier = (function() {
 
 	var notifier = {
@@ -968,6 +938,116 @@ var SlideLayout = (function() {
 	init();
 	sl.refresh = refresh;
 	return sl;
+}());
+
+
+(function() {
+	$ajax.fetch("/query-all").then(function(v) {
+		SlideLayout.refresh(v);
+	}, function() {}, function() {});
+
+	document.addEventListener('keydown', function(ev) {
+		var k = (ev.which || ev.keyCode);
+		if (k === 8 && ev.target.tagName !== 'INPUT') {
+			ev.preventDefault();
+		}
+		if (k === 116) {
+			console.log(ev)
+			ev.preventDefault();
+		}
+	})
+}());
+
+
+var $search = (function() {
+
+	function Search(ele) {
+		this.ele = $(ele);
+		this.init();
+	}
+	Search.prototype.CONST = {
+		modal: '.modal',
+		modalVisible: 'modal-is-visible',
+		modalSearch: '.input',
+		modalList: '.modal-list'
+	}
+	Search.prototype.init = function() {
+		if (!this.ele) return;
+
+		this.modal = new $Modal(document.querySelector(this.CONST.modal));
+		this.modalInput = $(this.modal.find(this.CONST.modalSearch));
+		this.modalList = document.querySelector(this.CONST.modalList);
+
+		this.bindEvent();
+
+	}
+	Search.prototype.showModal = function() {
+		this.modal.show();
+	}
+	Search.prototype.inputEvent = function(ev) {
+		if (ev.keyCode === 13) {
+			var searchText = this.modalInput.value.trim();
+			if (searchText) {
+				this.search(searchText);
+			}
+		}
+	}
+	Search.prototype.menuClick = function(ev) {
+		var id = ev.target.getAttribute('data-binding');
+		if (id) {
+			this.modal.hide();
+			setTimeout(function() {
+				editor.getContent(id);
+			}, 1);
+		}
+		console.log(id);
+	}
+	Search.prototype.bindEvent = function() {
+		if (this.modal) {
+			this.ele.on('click', this.showModal.bind(this));
+		}
+		if (this.modalInput && this.modalList) {
+			this.modalInput.on('keydown', this.inputEvent.bind(this))
+		}
+		if (this.modalList) {
+			this.modalList.addEventListener('click', this.menuClick.bind(this))
+		}
+	}
+	Search.prototype.search = function(v) {
+
+		var thenResponse = function(text) {
+			this.modalList.innerHTML = ""
+			this.modalList.innerHTML = this_.template(JSON.parse(text))
+		}.bind(this);
+
+		var this_ = this;
+		$ajax.fetch('/search', {
+			data: JSON.stringify({
+				search: v
+			})
+		}).then(thenResponse, function() {
+			console.log(arguments);
+		});
+	}
+	Search.prototype.template = function(datas) {
+		var content = "";
+		var noteItem = "<li class=\"modal-item\"><a class=\"modal-link\" data-binding=\"{_id}\">{content}</a></li>";
+		var template = /{([a-zA-Z_\-0-9]+)}/g;
+		var line = function(data) {
+			return noteItem.replace(template, function(m, g) {
+				if (g === "_id")
+					return data[g];
+				return data[g].escapeHTML();
+			})
+		}
+
+		for (var index = 0, l = datas.length; index < l; index++) {
+			content += line(datas[index]);
+		}
+		return content;
+	}
+
+	$search = new Search(search);
 }());
 
 

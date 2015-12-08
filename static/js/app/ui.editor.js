@@ -41,7 +41,7 @@
 
  		if (changed && !commandSave.classList.contains('careful')) {
  			commandSave.classList.add('careful');
- 		}  else if(!changed && commandSave.classList.contains('careful')) {
+ 		} else if (!changed && commandSave.classList.contains('careful')) {
  			commandSave.classList.contains('careful') && commandSave.classList.remove('careful');
  		}
 
@@ -53,7 +53,7 @@
  	 * ------------------------------------------------------------------------
  	 */
  	function getContent(id) {
- 		ajax.fetch("/query-one", {
+ 		$ajax.fetch("/query-one", {
  			data: JSON.stringify({
  				id: id
  			})
@@ -128,7 +128,7 @@
  				}
  				$log.d("the datas to database=>", datas);
 
- 				ajax.fetch("/put-note", {
+ 				$ajax.fetch("/put-note", {
  					data: JSON.stringify(datas)
  				}).then(function(v) {
  					status(0);
