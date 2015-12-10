@@ -8,7 +8,7 @@ var $ajax = (function() {
 
 	function fetch(url, options) {
 		options = options || {};
-		extend(options, j.defaluts);
+		$object.extend(options, j.defaluts);
 		return Q.Promise(function(resolve, reject, notify) {
 
 
@@ -64,15 +64,143 @@ var $animation = (function() {
 
 
 
-var extend = (function() {
-	return function(destination, source) {
+var $array = (function() {
 
-		for (var key in source) {
-			if (source.hasOwnProperty(key)) {
-				destination[key] = source[key];
-			}
+	var _array = {};
+
+	function coalesce(array) {
+		if (!array) {
+			return array;
 		}
+		return array.filter(function(e) {
+			return !!e
+		});
 	}
+
+	function fill(length, element) {
+		var result = []
+		while (length-- > 0) {
+			result.push(element);
+		}
+		return result;
+	}
+
+	_array.slice = [].slice;
+	return _array;
+}());
+
+
+var $date = (function() {
+	function since(timestamp) {
+		var seconds = (new Date().getTime() - timestamp) / 1000;
+		if (seconds < 60) {
+			return "just now";
+		}
+
+		var minutes = seconds / 60;
+		if (minutes < 60) {
+			return Math.floor(minutes) === 1 ? "1 minute ago" : Math.floor(minutes) + "minutes ago";
+		}
+
+		var hours = minutes / 60;
+		if (hours < 24) {
+			return Math.floor(hours) === 1 ? "1 hour ago" : Math.floor(hours) + " hours ago";
+		}
+
+		var days = hours / 24;
+		if (Math.floor(days) === 1) {
+			return "yesterday";
+		}
+
+		if (days > 6 && days < 8) {
+			return "a week ago"
+		}
+
+		if (days > 30 && days < 40) {
+			return "a month ago"
+		}
+
+		return Math.floor(days) + " days ago";
+
+	}
+
+}());
+
+
+var $hash = (function() {
+	var _hash = {};
+
+
+	function combine(value, currentHash) {
+		// Ensure we stay within 31 bits.
+		return (((currentHash << 5) + currentHash) + value) & 0x7FFFFFFF;
+	}
+
+	function computeMurmur2StringHashCode(key) {
+		// 'm' and 'r' are mixing constants generated offline.
+		// They're not really 'magic', they just happen to work well.
+		var m = 0x5bd1e995;
+		var r = 24;
+
+		var start = 0;
+		var len = key.length;
+		var numberOfCharsLeft = len;
+
+		// Initialize the hash to a 'random' value.
+		var h = (0 ^ numberOfCharsLeft);
+
+		// Mix 4 bytes at a time into the hash.  NOTE: 4 bytes is two chars, so we iterate
+		// through the string two chars at a time.
+		var index = start;
+		while (numberOfCharsLeft >= 2) {
+			var c1 = key.charCodeAt(index);
+			var c2 = key.charCodeAt(index + 1);
+
+			var k = c1 | (c2 << 16);
+
+			k *= m;
+			k ^= k >> r;
+			k *= m;
+
+			h *= m;
+			h ^= k;
+
+			index += 2;
+			numberOfCharsLeft -= 2;
+		}
+
+		// Handle the last char (or 2 bytes) if they exist.  This happens if the original string had
+		// odd length.
+		if (numberOfCharsLeft === 1) {
+			h ^= key.charCodeAt(index);
+			h *= m;
+		}
+
+		// Do a few final mixes of the hash to ensure the last few bytes are well-incorporated.
+
+		h ^= h >> 13;
+		h *= m;
+		h ^= h >> 15;
+
+		return h;
+	}
+
+
+	function hashCode(str) {
+		var hash = 0,
+			i, chr, len;
+		if (str.length == 0) return hash;
+		for (i = 0, len = this.length; i < len; i++) {
+			chr = str.charCodeAt(i);
+			hash = ((hash << 5) - hash) + chr;
+			hash |= 0; // Convert to 32bit integer
+		}
+		return hash;
+	}
+
+	_hash.hashCode = hashCode;
+	return _hash;
+
 }());
 
 
@@ -131,6 +259,52 @@ var $ = (function() {
 
 }());
 
+var $type = (function() {
+
+	var _type = {};
+
+	function create(ctor, args) {
+		var obj = Object.create(ctor.prototype);
+		ctor.apply(obj, args);
+		return obj;
+	}
+
+	function isString(str) {
+		if (typeof(str) === 'string' || str instanceof String) {
+			return true;
+		}
+
+		return false;
+	}
+
+	function isArray(array) {
+		if (Array.isArray) {
+			return Array.isArray(array);
+		}
+
+		if (array && typeof(array.length) === 'number' && array.constructor === Array) {
+			return true;
+		}
+
+		return false;
+	}
+
+	function isObject(obj) {
+
+		// Needed for IE8
+		if (typeof obj === 'undefined' || obj === null) {
+			return false;
+		}
+
+		return Object.prototype.toString.call(obj) === '[object Object]';
+	}
+	_type.isArray = isArray;
+	_type.isObject = isObject;
+	_type.isString = isString;
+	_type.create = create;
+	return _type;
+}());
+
 
 var $log = (function() {
 	var l = {}
@@ -147,6 +321,67 @@ var $log = (function() {
 	}
 	l.d = d;
 	return l;
+}());
+
+
+var $math = (function() {
+
+	var _math = {};
+
+	function isEven(n) {
+		return !(n & 1)
+	}
+
+	function isEqual(n, m) {
+		return !(n ^ m)
+	}
+
+	function round(n) {
+		return n + .5 | 0;
+	}
+
+	function truncate(n) {
+		return ~~n;
+	}
+
+	return _math;
+}());
+
+
+var $object = (function() {
+
+	var _object = {};
+
+	function clone(obj) {
+		if (!obj || typeof obj !== 'object') {
+			return obj;
+		}
+		if (obj instanceof RegExp) {
+			return obj;
+		}
+		var result = (Array.isArray(obj)) ? [] : {};
+		Object.keys(obj).forEach(function(key) {
+			if (obj[key] && typeof obj[key] === 'object') {
+				result[key] = clone(obj[key]);
+			} else {
+				result[key] = obj[key];
+			}
+		});
+		return result;
+	}
+
+	function extend(destination, source) {
+
+		for (var key in source) {
+			if (source.hasOwnProperty(key)) {
+				destination[key] = source[key];
+			}
+		}
+	}
+
+	_object.extend = extend;
+	return _object;
+
 }());
 
 
@@ -210,14 +445,15 @@ var $log = (function() {
 			return arr[i];
 		})
 	}
-	String.prototype.px = function() {
-		var l = arguments.length;
-		var i = 0;
-		while (l--) {
-			i += arguments[l]
+	String.prototype.padLeft = function(length, c) {
+		c = c || '0';
+		var self = this;
+		for (; self.length < length;) {
+			self = c + self;
 		}
-		return i + "px";
+		return self;
 	}
+
 	String.prototype.firstLine = function() {
 
 		if (this) {
@@ -244,6 +480,53 @@ var $log = (function() {
 	};
 
 }());
+
+var $string = (function() {
+
+	var _string = {};
+
+	function startsWith(str, prefix) {
+		var length = prefix.length;
+		if (length && length <= str.length) {
+			return str.slice(0, length) === prefix;
+		} else {
+			return false;
+		}
+	}
+
+
+	function repeat(s, n) {
+		var r = "";
+		while (true) {
+			if (n & 1) r += s;
+			n >>= 1;
+			if (n === 0) return r;
+			s += s;
+		}
+		return s;
+	}
+
+
+	function format(message, args) {
+		var result;
+		if (args.length === 0) {
+			result = message;
+		} else {
+			result = message.replace(/\{(\d+)\}/g, function(match, rest) {
+				var index = rest[0];
+				return typeof args[index] !== 'undefined' ? args[index] : match;
+			});
+		}
+		return result;
+	}
+	_string.format = format;
+	_string.repeat = repeat;
+	_string.startsWith = startsWith;
+	return _string;
+}());
+
+
+
 
 
 ;
@@ -428,9 +711,9 @@ var $log = (function() {
  					});
  					if (document.querySelector('title').innerHTML !== title) {
  						document.querySelector('title').innerHTML = title;
- 						ajax.fetch("/query-all").then(function(v) {
+ 						$ajax.fetch("/query-all").then(function(v) {
  							SlideLayout.refresh(v);
- 						}, function() {}, function() {});
+ 						}, function() {});
  					}
  				}, function() {
 
@@ -565,12 +848,22 @@ var $log = (function() {
  				}
 
  				replaceSelectedText(c);
+ 			},
+ 			shortDate: function() {
+ 				var date = new Date
+ 				var ds = date.toJSON().split(/[a-z]/i)[0]
+ 				var str = selectedText()
+ 				replaceSelectedText(str + ds);
+ 			},
+ 			hr: function() {
+ 				var str = selectedText()
+ 				replaceSelectedText(str + '\n---\n');
  			}
 
  		}
  		/**
  		 * ------------------------------------------------------------------------
- 		 *  'cmd' is a array for hold the command objects  
+ 		 *  'cmd' is a array for hold the command objects
  		 * ------------------------------------------------------------------------
  		 */
  	var cmd = [{
@@ -633,6 +926,12 @@ var $log = (function() {
  	}, {
  		name: 'customList',
  		exec: commands.customList
+ 	}, {
+ 		name: 'shortDate',
+ 		exec: commands.shortDate
+ 	}, {
+ 		name: 'hr',
+ 		exec: commands.hr
  	}]
 
  	/**
@@ -647,7 +946,7 @@ var $log = (function() {
  	/**
  	 * ------------------------------------------------------------------------
  	 *  find the dom which has the '.comand' classname
- 	 *  and register the click event with a hanlder which mapping to the commands by 
+ 	 *  and register the click event with a hanlder which mapping to the commands by
  	 *  the 'data-binding' attribute
  	 * ------------------------------------------------------------------------
  	 */
@@ -669,87 +968,92 @@ var $log = (function() {
 
 var $Modal = (function() {
 
-	function Modal(ele) {
-		if (!ele) return;
-		this.ele = ele;
+  function Modal(ele) {
+    if (!ele) return;
+    this.ele = ele;
 
-		this.init()
-	}
-	Modal.prototype.CONST = {
-		DURATION: 500,
-		status: 0
-	}
-	Modal.prototype.init = function() {
-		this.close = this.ele.querySelector('.btn-close');
+    this.init()
+  }
+  Modal.prototype.CONST = {
+    DURATION: 500,
+    status: 0,
+    closeButton: '.btn-close'
+  }
+  Modal.prototype.init = function() {
+    this.close = this.ele.querySelector(this.CONST.closeButton);
+    this.bindEvent();
+  }
+  Modal.prototype.bindEvent = function() {
+    if (this.close) {
+      this.close.addEventListener('click', this.hide.bind(this))
+    }
+  }
+  Modal.prototype.hide = function() {
+    var this_ = this;
+    this.CONST.status = 0;
+    this.animate({
+      easing: TWEEN.Easing.Quadratic.Out,
+      duration: 350,
+      mapFrom: {
+        top: 50
+      },
+      mapTo: {
+        top: -this_.ele.clientHeight * 1.2
+      },
+      onupdate: function() {
+        this_.ele.style.top = this.top + "px"
+      }
+    })
+  }
+  Modal.prototype.show = function() {
 
-		this.close.addEventListener('click', this.hide.bind(this))
+    var this_ = this;
+    if (this.CONST.status) {
+      return;
+    }
+    this.CONST.status = 1;
+    this.animate({
+      easing: TWEEN.Easing.Quadratic.In,
+      duration: 350,
+      mapFrom: {
+        top: -this_.ele.clientHeight * 1.2
+      },
+      mapTo: {
+        top: 50
+      },
+      onupdate: function() {
+        this_.ele.style.top = this.top + "px"
+      }
+    })
+  }
+  Modal.prototype.animate = function(animateDatas) {
 
-	}
-	Modal.prototype.hide = function() {
-		var this_ = this;
-		this.CONST.status = 0;
-		this.animate({
-			easing: TWEEN.Easing.Quadratic.Out,
-			duration: 450,
-			mapFrom: {
-				top: 50
-			},
-			mapTo: {
-				top: -this_.ele.clientHeight * 1.2
-			},
-			onupdate: function() {
-				this_.ele.style.top = this.top + "px"
-			}
-		})
-	}
-	Modal.prototype.show = function() {
+    var duration = animateDatas.duration || this.CONST.DURATION;
+    var easing = animateDatas.easing || TWEEN.Easing.Linear.None;
 
-		var this_ = this;
-		if (this.CONST.status) {
-			return;
-		}
-		this.CONST.status = 1;
-		this.animate({
-			easing: TWEEN.Easing.Quadratic.In,
-			duration: 450,
-			mapFrom: {
-				top: -this_.ele.clientHeight * 1.2
-			},
-			mapTo: {
-				top: 50
-			},
-			onupdate: function() {
-				this_.ele.style.top = this.top + "px"
-			}
-		})
-	}
-	Modal.prototype.animate = function(animateDatas) {
+    var onComplete = animateDatas.oncomplete || function() {
+      TWEEN.removeAll();
+    }
+    var tween = new TWEEN.Tween(animateDatas.mapFrom)
+      .to(animateDatas.mapTo, duration)
+      .onUpdate(animateDatas.onupdate)
+      .onComplete(onComplete)
+      .easing(easing)
+      .start();
 
-		var duration = animateDatas.duration || this.CONST.DURATION;
-		var easing = animateDatas.easing || TWEEN.Easing.Linear.None;
+    requestAnimationFrame(animate);
 
-		var onComplete = animateDatas.oncomplete || function() {
-			TWEEN.removeAll();
-		}
-		var tween = new TWEEN.Tween(animateDatas.mapFrom)
-			.to(animateDatas.mapTo, duration)
-			.onUpdate(animateDatas.onupdate)
-			.onComplete(onComplete)
-			.easing(easing)
-			.start();
-
-		requestAnimationFrame(animate);
-
-		function animate(time) {
-			requestAnimationFrame(animate);
-			TWEEN.update(time);
-		}
-	}
-	Modal.prototype.find = function(selector) {
-		return this.ele.querySelector(selector);
-	}
-	return Modal;
+    function animate(time) {
+      requestAnimationFrame(animate);
+      TWEEN.update(time);
+    }
+  }
+  Modal.prototype.find = function(selector) {
+    return this.ele.querySelector(selector);
+  }
+  return Modal;
 }());
+
 
 
 var Notifier = (function() {
@@ -786,7 +1090,7 @@ var Notifier = (function() {
 			hide()
 		}
 		notifier.showing = 1;
-		extend(notifier.defaults, options);
+		$object.extend(notifier.defaults, options);
 
 
 		var n = notifier.instance;
@@ -942,112 +1246,133 @@ var SlideLayout = (function() {
 
 
 (function() {
-	$ajax.fetch("/query-all").then(function(v) {
-		SlideLayout.refresh(v);
-	}, function() {}, function() {});
 
-	document.addEventListener('keydown', function(ev) {
-		var k = (ev.which || ev.keyCode);
-		if (k === 8 && ev.target.tagName !== 'INPUT') {
-			ev.preventDefault();
-		}
-		if (k === 116) {
-			console.log(ev)
-			ev.preventDefault();
-		}
-	})
+  // When the page loaded, get the note list from web server.
+  $ajax.fetch("/query-all").then(function(v) {
+    SlideLayout.refresh(v);
+  }, function() {}, function() {});
+
+  document.addEventListener('keydown', function(ev) {
+    var k = (ev.which || ev.keyCode);
+    // Prevent page backforward on pressing BackSpace.
+    if (k === 8 && ev.target.tagName !== 'INPUT') {
+      ev.preventDefault();
+    }
+    // Prevent page refresh on pressing F5.
+    if (k === 116) {
+      console.log(ev)
+      ev.preventDefault();
+    }
+  })
 }());
 
 
 var $search = (function() {
 
-	function Search(ele) {
-		this.ele = $(ele);
-		this.init();
-	}
-	Search.prototype.CONST = {
-		modal: '.modal',
-		modalVisible: 'modal-is-visible',
-		modalSearch: '.input',
-		modalList: '.modal-list'
-	}
-	Search.prototype.init = function() {
-		if (!this.ele) return;
+  function Search(ele) {
+    this.ele = $(ele);
+    this.init();
+  }
+  /**
+   * ------------------------------------------------------------------------
+   *
+   * ------------------------------------------------------------------------
+   */
+  Search.prototype.CONST = {
+    modal: '.modal',
+    modalVisible: 'modal-is-visible',
+    modalSearch: '.input',
+    modalSearchButton: '.btn-default',
+    modalList: '.modal-list',
+    template: "<li class=\"modal-item\"><a class=\"modal-link\" data-binding=\"{_id}\">{content}</a></li>"
+  }
+  Search.prototype.init = function() {
+    if (!this.ele) return;
 
-		this.modal = new $Modal(document.querySelector(this.CONST.modal));
-		this.modalInput = $(this.modal.find(this.CONST.modalSearch));
-		this.modalList = document.querySelector(this.CONST.modalList);
+    this.modal = new $Modal(document.querySelector(this.CONST.modal));
+    this.modalInput = $(this.modal.find(this.CONST.modalSearch));
+    this.modalList = document.querySelector(this.CONST.modalList);
 
-		this.bindEvent();
+    this.bindEvent();
 
-	}
-	Search.prototype.showModal = function() {
-		this.modal.show();
-	}
-	Search.prototype.inputEvent = function(ev) {
-		if (ev.keyCode === 13) {
-			var searchText = this.modalInput.value.trim();
-			if (searchText) {
-				this.search(searchText);
-			}
-		}
-	}
-	Search.prototype.menuClick = function(ev) {
-		var id = ev.target.getAttribute('data-binding');
-		if (id) {
-			this.modal.hide();
-			setTimeout(function() {
-				editor.getContent(id);
-			}, 1);
-		}
-		console.log(id);
-	}
-	Search.prototype.bindEvent = function() {
-		if (this.modal) {
-			this.ele.on('click', this.showModal.bind(this));
-		}
-		if (this.modalInput && this.modalList) {
-			this.modalInput.on('keydown', this.inputEvent.bind(this))
-		}
-		if (this.modalList) {
-			this.modalList.addEventListener('click', this.menuClick.bind(this))
-		}
-	}
-	Search.prototype.search = function(v) {
+  }
+  Search.prototype.showModal = function() {
+    this.modal.show();
+  }
 
-		var thenResponse = function(text) {
-			this.modalList.innerHTML = ""
-			this.modalList.innerHTML = this_.template(JSON.parse(text))
-		}.bind(this);
+  Search.prototype.inputEvent = function(ev) {
 
-		var this_ = this;
-		$ajax.fetch('/search', {
-			data: JSON.stringify({
-				search: v
-			})
-		}).then(thenResponse, function() {
-			console.log(arguments);
-		});
-	}
-	Search.prototype.template = function(datas) {
-		var content = "";
-		var noteItem = "<li class=\"modal-item\"><a class=\"modal-link\" data-binding=\"{_id}\">{content}</a></li>";
-		var template = /{([a-zA-Z_\-0-9]+)}/g;
-		var line = function(data) {
-			return noteItem.replace(template, function(m, g) {
-				if (g === "_id")
-					return data[g];
-				return data[g].escapeHTML();
-			})
-		}
+    if (ev.keyCode === 13) {
+      //Fired the search if the enter key pressed.
+      this.search();
+    }
+  }
+  Search.prototype.menuClick = function(ev) {
+    var id = ev.target.getAttribute('data-binding');
+    if (id) {
+      this.modal.hide();
+      setTimeout(function() {
+        editor.getContent(id);
+      }, 1);
+    }
+  }
+  Search.prototype.bindEvent = function() {
+    if (this.modal) {
+      this.ele.on('click', this.showModal.bind(this));
+      var searchButton = this.modal.find(this.CONST.modalSearchButton);
+      if (searchButton) {
+        searchButton.addEventListener('click', this.search.bind(this));
+      }
+    }
+    if (this.modalInput && this.modalList) {
+      this.modalInput.on('keydown', this.inputEvent.bind(this))
+    }
+    if (this.modalList) {
+      this.modalList.addEventListener('click', this.menuClick.bind(this));
 
-		for (var index = 0, l = datas.length; index < l; index++) {
-			content += line(datas[index]);
-		}
-		return content;
-	}
+    }
 
-	$search = new Search(search);
+  }
+  Search.prototype.search = function() {
+      var searchText = this.modalInput.value.trim();
+      if (!searchText) return;
+      var thenResponse = function(text) {
+        this.modalList.innerHTML = ""
+        this.modalList.innerHTML = this_.template(JSON.parse(text))
+      }.bind(this);
+
+      var this_ = this;
+      $ajax.fetch('/search', {
+        data: JSON.stringify({
+          search: searchText
+        })
+      }).then(thenResponse, function() {
+        console.log(arguments);
+      });
+    }
+    /*
+    The content generator of search result.
+    */
+  Search.prototype.template = function(datas) {
+    var content = "";
+    var t = this.CONST.template;
+    var template = /{([a-zA-Z_\-0-9]+)}/g;
+    var line = function(data) {
+      return t.replace(template, function(m, g) {
+        if (g === "_id")
+          return data[g];
+        return data[g].escapeHTML();
+      })
+    }
+
+    for (var index = 0, l = datas.length; index < l; index++) {
+      content += line(datas[index]);
+    }
+    return content;
+  }
+
+  $search = new Search(search);
 }());
+
 
 

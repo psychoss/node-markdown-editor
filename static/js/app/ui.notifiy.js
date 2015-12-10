@@ -32,7 +32,7 @@ var Notifier = (function() {
 			hide()
 		}
 		notifier.showing = 1;
-		extend(notifier.defaults, options);
+		$object.extend(notifier.defaults, options);
 
 
 		var n = notifier.instance;

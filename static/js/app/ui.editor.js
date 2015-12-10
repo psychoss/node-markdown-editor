@@ -142,9 +142,9 @@
  					});
  					if (document.querySelector('title').innerHTML !== title) {
  						document.querySelector('title').innerHTML = title;
- 						ajax.fetch("/query-all").then(function(v) {
+ 						$ajax.fetch("/query-all").then(function(v) {
  							SlideLayout.refresh(v);
- 						}, function() {}, function() {});
+ 						}, function() {});
  					}
  				}, function() {
 
@@ -279,12 +279,22 @@
  				}
 
  				replaceSelectedText(c);
+ 			},
+ 			shortDate: function() {
+ 				var date = new Date
+ 				var ds = date.toJSON().split(/[a-z]/i)[0]
+ 				var str = selectedText()
+ 				replaceSelectedText(str + ds);
+ 			},
+ 			hr: function() {
+ 				var str = selectedText()
+ 				replaceSelectedText(str + '\n---\n');
  			}
 
  		}
  		/**
  		 * ------------------------------------------------------------------------
- 		 *  'cmd' is a array for hold the command objects  
+ 		 *  'cmd' is a array for hold the command objects
  		 * ------------------------------------------------------------------------
  		 */
  	var cmd = [{
@@ -347,6 +357,12 @@
  	}, {
  		name: 'customList',
  		exec: commands.customList
+ 	}, {
+ 		name: 'shortDate',
+ 		exec: commands.shortDate
+ 	}, {
+ 		name: 'hr',
+ 		exec: commands.hr
  	}]
 
  	/**
@@ -361,7 +377,7 @@
  	/**
  	 * ------------------------------------------------------------------------
  	 *  find the dom which has the '.comand' classname
- 	 *  and register the click event with a hanlder which mapping to the commands by 
+ 	 *  and register the click event with a hanlder which mapping to the commands by
  	 *  the 'data-binding' attribute
  	 * ------------------------------------------------------------------------
  	 */

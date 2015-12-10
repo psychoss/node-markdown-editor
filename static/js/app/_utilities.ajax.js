@@ -8,7 +8,7 @@ var $ajax = (function() {
 
 	function fetch(url, options) {
 		options = options || {};
-		extend(options, j.defaluts);
+		$object.extend(options, j.defaluts);
 		return Q.Promise(function(resolve, reject, notify) {
 
 
