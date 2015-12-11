@@ -92,27 +92,11 @@
 								</span>
 							</button>
 
-							<button class="btn btn-default dropdown">
+							<button class="btn btn-default dropdown-trigger">
 								<span class="header-search-content">
 									<i class="header-btn-ico">&#xE5CF;</i>
 								</span>
-								<ul class="menu">
-									<li class="command menu-item" data-binding="blockquote">
-										Blockquote
-									</li>
-									<li class="command menu-item" data-binding="fmtToarray">
-										Format to Array
-									</li>
-									<li class="command menu-item" data-binding="removeEmpty">
-										Remove the Empty Lines
-									</li>
-									<li class="command menu-item" data-binding="customList">
-										Custom List
-									</li>
-									<li class="command menu-item" data-binding="shortDate">
-										DateTime String
-									</li>
-								</ul>
+
 							</button>
 							<!--<button class="btn btn-default header-search-button no-shadow">
 								<span class="header-search-button-content">
@@ -132,6 +116,15 @@
 			<div class="slide-content">
 				<div class="menu-search-container">
 					<input class="menu-search-input" placeholder="filter">
+					<a class="combobox categories-dropdown-trigger">
+						<div class="combobox__content">
+									<div class="combobox__name">Notes</div>
+						<div class="combobox__caret"></div>
+						</div>
+
+
+					</a>
+
 				</div>
 				<ul class=" menu" id="note_list">
 				</ul>
@@ -170,7 +163,6 @@
 
 	<script src="js/tween.js"></script>
 	<script src="js/marked.js"></script>
-	<script src="js/q.js"></script>
 	<script src="ace/ace.js"></script>
 	<script src="ace/ext/ext-language_tools.js"></script>
 	<script src="js/index.js"></script>

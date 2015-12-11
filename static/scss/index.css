@@ -1,4 +1,5 @@
 /** ------------------------------------------------------------------------ modal 25 ------------------------------------------------------------------------ */
+/* === USAGE === .block { @include element('element') { } @include modifier('modifier') { @include element('element') { } } } */
 .shadow-2 { box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
 
 .shadow-3 { box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 1px 8px 0 rgba(0, 0, 0, 0.12); }
@@ -173,6 +174,16 @@ embed, object { position: relative; }
 
 .btn-close:hover { opacity: .6; }
 
+.combobox { background: #f8f8f8; border-radius: 2px; border: 1px solid #d3d3d3; color: #666; display: block; font-size: 13px; font-weight: 500; height: 28px; overflow: hidden; padding: 0 10px; position: relative; white-space: nowrap; }
+
+.combobox:hover { background: #f0f0f0; text-decoration: none; color: #333; }
+
+.combobox__content { padding-top: 4px; }
+
+.combobox__name { display: inline-block; overflow: hidden; white-space: nowrap; word-wrap: normal; -o-text-overflow: ellipsis; text-overflow: ellipsis; line-height: 20px; vertical-align: bottom; }
+
+.combobox__caret { float: right; background: no-repeat url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAd0lEQVQ4T2NkoBJgpJI5DKMGEQ5JXGGUANS6AId2rHLYDHIAGrAfalAimmEgw+OBGCSOYhE+F81HMwxmyEKgOMhVKABf9IMUwwwDaQLxsRoCkiSUjmCGgdTiNIQYg2AuAYUbhneQ/UbIRehBgZM/ahDhoKJaGAEAxqsQE3Ua8/oAAAAASUVORK5CYII=); background-size: auto; width: 18px; height: 18px; }
+
 dialog { box-sizing: border-box; border: 1px solid transparent !important; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3); border-radius: 2px; padding: 0; }
 
 dialog::backdrop { background-color: rgba(0, 0, 0, 0.3); }
@@ -217,15 +228,19 @@ dialog fieldset input[type="text"] { display: block; margin: 3px 0 0; width: 100
 
 .menu-search-container { padding: 10px 0; border-bottom: 1px solid #ebebeb; margin-bottom: 3px; }
 
-.menu-search-input { display: block; width: 100%; }
+.menu-search-input { display: block; width: 100%; box-sizing: border-box; padding: 5px 0; }
 
-.dropdown .menu { border-radius: 3px; box-shadow: 0 2px 40px rgba(0, 0, 0, 0.4); transition: opacity .218s; background: #fff; border: 1px solid #ccc; border: 1px solid rgba(0, 0, 0, 0.2); cursor: default; font-size: 13px; margin: 0; outline: none; padding: 6px 0; position: absolute; z-index: 21; visibility: hidden; }
+.dropdown { width: 300px; margin-top: 4px; margin-bottom: 20px; overflow: hidden; font-size: 12px; color: #666; background-color: #fff; background-clip: padding-box; border: 1px solid rgba(200, 200, 200, 0.4); border-radius: 3px; box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15); }
 
-.dropdown .menu .menu-item { position: relative; color: #333; cursor: pointer; list-style: none; margin: 0; padding: 6px 8em 6px 30px; white-space: nowrap; outline: none; -webkit-user-select: none; text-align: left; }
+.dropdown__menu-item { cursor: pointer; border-bottom: 1px solid #eee; display: table; table-layout: fixed; width: 100%; overflow: hidden; color: inherit; }
 
-.dropdown .menu .menu-item:hover { background-color: #e8e8e8; }
+.dropdown__menu-item.is-selected { background-color: #e5e5e5; }
 
-.dropdown:hover .menu { visibility: visible; }
+.dropdown__menu-item--hover { background-color: #e5e5e5; }
+
+.dropdown__menu-item-ico { display: table-cell; color: transparent; vertical-align: top; padding: 8px 0 8px 8px; width: 24px; text-align: center; }
+
+.dropdown__menu-item-text { display: table-cell; vertical-align: top; padding: 8px; text-align: left; }
 
 /** ------------------------------------------------------------------------ Notifition ------------------------------------------------------------------------ */
 .notifition { display: flex; align-items: flex-end; flex-flow: column-reverse; padding-bottom: 3rem; }

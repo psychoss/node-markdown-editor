@@ -1,35 +1,52 @@
-var SlideLayout = (function() {
-	var sl = {};
+var $slideLayout = (function() {
 
-	function refresh(v) {
-		try {
-			var datas = JSON.parse(v);
-			sl.ele.html("");
-			sl.ele.html(noteList(datas));
-			bindLinks();
-		} catch (error) {
 
-		}
-
+	function SlideLayout() {
+		this.init();
 	}
 
-	function init() {
-		var slidePlace = document.querySelector('.slide-layout .menu');
-		var toggleButton = $(document.querySelector('.header-toggle-btn'));
+	SlideLayout.prototype.init = function() {
+		this.ele = document.querySelector('.slide-layout .menu');
+		var toggleButton = document.querySelector('.header-toggle-btn');
 		var slideLayout = $(document.querySelector('.slide-layout'));
 
-		sl.ele = sl.ele || $(slidePlace);
-		resize();
-		window.addEventListener('resize', resize);
+		this.settingsSelect();
+		this.settingsSearch();
+		toggleButton.addEventListener('click', function(ev) {
+			ev.stopImmediatePropagation();
+			slideLayout.addClass('is-active');
+		});
 		document.addEventListener('click', function() {
 			slideLayout.removeClass('is-active');
 		});
+		this.resize();
+		window.addEventListener('resize', this.resize.bind(this));
 
-		toggleButton.on('click', function(ev) {
-			ev.stopImmediatePropagation();
-			slideLayout.addClass('is-active');
-		})
+	}
+	SlideLayout.prototype.refresh = function(v) {
+		try {
+			var datas = JSON.parse(v);
+			this.ele.innerHTML = this.refreshList(datas);
+			this.bindLinks();
+		} catch (error) {
 
+		}
+	}
+	SlideLayout.prototype.settingsSelect = function(v) {
+
+		// var select = document.querySelector('.combobox');
+		// select.addEventListener('click', function(ev) {
+		// 	ev.stopImmediatePropagation()
+
+		// })
+		// console.log(select);
+		// select.style['margin-top'] = '3px';
+
+	}
+
+	SlideLayout.prototype.settingsSearch = function(v) {
+
+		var self = this;
 		var searchInput = document.querySelector('.menu-search-input');
 
 		searchInput.addEventListener('click', function(ev) {
@@ -42,7 +59,7 @@ var SlideLayout = (function() {
 			timeout = setTimeout(function() {
 				var c = searchInput.value;
 				if (c.trim())
-					filter(c);
+					self.filter(c);
 				else {
 					var ls = note_list.children;
 					for (l = ls.length; l--;) {
@@ -51,9 +68,12 @@ var SlideLayout = (function() {
 				}
 			}, 50);
 		})
+
 	}
 
-	function filter(v) {
+
+
+	SlideLayout.prototype.filter = function(v) {
 		v = eval('/' + v + '/i')
 		var ls = note_list.children;
 		for (l = ls.length; l--;) {
@@ -68,13 +88,13 @@ var SlideLayout = (function() {
 		}
 	}
 
-	function resize() {
-		sl.ele.css('max-height', (window.innerHeight - 60) + 'px');
+	SlideLayout.prototype.resize = function() {
+		this.ele.style.maxHeight = (window.innerHeight - 100) + 'px';
 	}
 
-	function bindLinks() {
+	SlideLayout.prototype.bindLinks = function() {
 
-		var links = sl.ele.querySelectorAll('.menu-item-link');
+		var links = this.ele.querySelectorAll('.menu-item-link');
 		var l = links.length;
 		while (l--) {
 			links[l].addEventListener('click', function(v) {
@@ -84,9 +104,19 @@ var SlideLayout = (function() {
 		}
 	}
 
+	SlideLayout.prototype.refreshDefault = function() {
+		var self = this;
+		$ajax.fetch("/query-all", {
+			method: 'POST'
+		}).then(function(v) {
+			self.refresh(v);
+		}, function() {
+			console.log(arguments);
+		});
 
+	}
 
-	function noteList(datas) {
+	SlideLayout.prototype.refreshList = function(datas) {
 		var content = "";
 		var noteItem = "<li class=\"menu-item\"><a class=\"menu-item-link vertical-align\" data-binding=\"{_id}\" title=\"{title}\"><span class=\"vertical-container\"><span class=\"menu-name\">{title}</span></span></a></li>";
 		var template = /{([a-zA-Z_\-0-9]+)}/g;
@@ -101,7 +131,5 @@ var SlideLayout = (function() {
 		}
 		return content;
 	}
-	init();
-	sl.refresh = refresh;
-	return sl;
+	return new SlideLayout();
 }());

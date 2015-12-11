@@ -1,0 +1,22 @@
+/* === USAGE ===
+.block {
+    @include element('element') {
+    }
+    @include modifier('modifier') {
+        @include element('element') {
+        }
+    }
+}
+*/
+
+@mixin element($element) {
+	&__#{$element} {
+		@content;
+	}
+}
+
+@mixin modifier($modifier) {
+	&--#{$modifier} {
+		@content;
+	}
+}

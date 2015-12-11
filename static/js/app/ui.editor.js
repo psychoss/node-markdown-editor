@@ -5,7 +5,10 @@
  	 * ------------------------------------------------------------------------
  	 */
  	ace.require('ace/ext/language_tools')
- 	var e = ace.edit(document.querySelector('.editor'))
+ 	var e = ace.edit(document.querySelector('.editor'));
+
+ 	e.category = [];
+
  	e.$blockScrolling = Infinity;
  	e.setShowPrintMargin(false);
  	e.getSession().setMode('ace/mode/markdown');
@@ -54,12 +57,25 @@
  	 */
  	function getContent(id) {
  		$ajax.fetch("/query-one", {
+ 			method: 'POST',
  			data: JSON.stringify({
  				id: id
  			})
  		}).then(function(v) {
  			// a hack for parse the json string to object
  			var data = new Function('return ' + v)();
+ 			if (data.category) {
+ 				if (!e.category.length)
+ 					e.category = document.querySelectorAll('.dropdown__menu-item.category');
+ 				console.log(e.category);
+ 				var i = e.category.length;
+
+ 				for (; i--;) {
+ 					if (e.category[i].innerText.trim() === data.category) {
+ 						e.category[i].classList.add('is-selected');
+ 					}
+ 				}
+ 			}
  			e.setValue(data.content);
  			document.body.setAttribute('data-binding', data._id);
  			document.querySelector('title').innerHTML = data.title;
@@ -112,18 +128,29 @@
  				var id = document.body.getAttribute('data-binding') || -1;
  				$log.d("the id to database =>", id);
  				var datas = null;
+
+ 				var category = document.querySelector('.category.is-selected');
+ 				if (category) {
+ 					category = category.innerText.trim();
+ 				} else {
+ 					category = 'Notes';
+ 				}
+
  				if (id !== -1) {
  					datas = {
  						id: id,
  						title: title,
- 						content: content
+ 						content: content,
+ 						category: category
  					}
  				} else {
  					datas = {
  						id: id,
  						title: title,
  						content: content,
+ 						category: category,
  						create: Date.now()
+
  					}
  				}
  				$log.d("the datas to database=>", datas);
@@ -381,8 +408,8 @@
  	 *  the 'data-binding' attribute
  	 * ------------------------------------------------------------------------
  	 */
- 	function bindCommands() {
- 		var btn = document.querySelectorAll(".command");
+ 	function bindCommands(btn) {
+
  		var l = btn.length;
  		while (l--) {
  			btn[l].addEventListener('click', function(ev) {
@@ -391,7 +418,8 @@
  		}
 
  	}
- 	bindCommands();
+ 	bindCommands(document.querySelectorAll(".command"));
+ 	e.bindCommands = bindCommands;
  	e.getContent = getContent;
  	return e;
  }());

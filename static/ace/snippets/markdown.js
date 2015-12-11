@@ -1,1 +1,1 @@
-define("ace/snippets/markdown",["require","exports","module"],function(e,t,n){"use strict";t.snippetText='snippet l\n	<${1:link}>\nsnippet i\n	![](images/)',t.scope="markdown"})
+define("ace/snippets/markdown",["require","exports","module"],function(e,t,n){"use strict";t.snippetText='snippet l\n	<${1:link}>\nsnippet i\n	![](images/)\nsnippet c\n	- Code Snippets',t.scope="markdown"})

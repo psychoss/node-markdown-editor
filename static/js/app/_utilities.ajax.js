@@ -1,5 +1,5 @@
 var $ajax = (function() {
-	var j = {
+	var _ajax = {
 		defaluts: {
 			method: 'POST'
 		}
@@ -8,17 +8,17 @@ var $ajax = (function() {
 
 	function fetch(url, options) {
 		options = options || {};
-		$object.extend(options, j.defaluts);
-		return Q.Promise(function(resolve, reject, notify) {
+		$object.extend(_ajax.defaluts, options);
+		return new Promise(function(resolve, reject) {
 
 
 			var request = new XMLHttpRequest();
-
-			request.open(options.method, url, true);
+			console.log(_ajax.defaluts.method);
+			request.open(_ajax.defaluts.method, url, true);
 			request.onload = onload;
 			request.onerror = onerror;
-			request.onprogress = onprogress;
-			var data = options.data || '';
+			//request.onprogress = onprogress;
+			var data = _ajax.defaluts.data || '';
 			request.send(data);
 
 			function onload() {
@@ -33,11 +33,19 @@ var $ajax = (function() {
 				reject(new Error("Can't XHR " + JSON.stringify(url)));
 			}
 
-			function onprogress(event) {
-				notify(event.loaded / event.total);
-			}
+			// function onprogress(event) {
+			// 	notify(event.loaded / event.total);
+			// }
 		});
 	}
-	j.fetch = fetch;
-	return j;
+
+	function html(url) {
+		return fetch(url, {
+			method: 'GET'
+		})
+	}
+
+	_ajax.fetch = fetch;
+	_ajax.html = html;
+	return _ajax;
 }());
