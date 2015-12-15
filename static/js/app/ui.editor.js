@@ -56,18 +56,27 @@
  	 * ------------------------------------------------------------------------
  	 */
  	function getContent(id) {
+ 		
+ 		
  		$ajax.fetch("/query-one", {
  			method: 'POST',
  			data: JSON.stringify({
  				id: id
  			})
  		}).then(function(v) {
+ 			
+
  			// a hack for parse the json string to object
  			var data = new Function('return ' + v)();
  			if (data.category) {
+
+ 				var sel = document.querySelector('.category.is-selected');
+ 				if (sel) {
+ 					sel.classList.remove('is-selected')
+ 				}
+
  				if (!e.category.length)
  					e.category = document.querySelectorAll('.dropdown__menu-item.category');
- 				console.log(e.category);
  				var i = e.category.length;
 
  				for (; i--;) {
@@ -79,8 +88,9 @@
  			e.setValue(data.content);
  			document.body.setAttribute('data-binding', data._id);
  			document.querySelector('title').innerHTML = data.title;
+
  		}, function() {
- 			$log.e(arguments);
+ 			
  		});
  	}
 
@@ -159,9 +169,9 @@
  					data: JSON.stringify(datas)
  				}).then(function(v) {
  					status(0);
- 					console.log("the di return by server is " + v);
+ 					
  					if (+v !== 0) {
- 						console.log("changed the body data-binding");
+ 						
  						document.body.setAttribute('data-binding', v)
  					}
  					Notifier.show("Success.", {
@@ -170,7 +180,7 @@
  					if (document.querySelector('title').innerHTML !== title) {
  						document.querySelector('title').innerHTML = title;
  						$ajax.fetch("/query-all").then(function(v) {
- 							SlideLayout.refresh(v);
+ 							$slideLayout.refresh(v);
  						}, function() {});
  					}
  				}, function() {
@@ -294,10 +304,10 @@
  				var str = selectedText().trim().split('\n');
  				var c = "";
  				var line = "";
- 				console.log(str);
+ 				
  				for (var l = 0; l < str.length; l++) {
  					line = str[l]
- 					console.log(line);
+ 					
  					if (l % 2 === 0) {
  						c += "- **" + line + "**\n\n"
  					} else {
@@ -312,6 +322,12 @@
  				var ds = date.toJSON().split(/[a-z]/i)[0]
  				var str = selectedText()
  				replaceSelectedText(str + ds);
+ 			},
+ 			addImage: function() {
+ 				var date = new Date
+ 				var ds = date.toJSON().split(/[a-z]/i)[0]
+ 				var str = selectedText()
+ 				replaceSelectedText(str + "![](/images/" + ds + "/) ");
  			},
  			hr: function() {
  				var str = selectedText()
@@ -390,6 +406,9 @@
  	}, {
  		name: 'hr',
  		exec: commands.hr
+ 	}, {
+ 		name: 'addImage',
+ 		exec: commands.addImage
  	}]
 
  	/**

@@ -27,10 +27,12 @@
 	}
 
 	DropDown.prototype.init = function() {
-
+		var container = document.createDocumentFragment();
 		this.showing = false;
 		this.holder = document.createElement('div');
-		document.body.appendChild(this.holder);
+
+		container.appendChild(this.holder)
+		document.body.appendChild(container);
 		//this.holder.setAttribute('class', this.CONST.holder);
 
 		this.bindEvent();
@@ -140,6 +142,27 @@
 		$ajax.html(this.template).then(ok, function() {
 			console.log(arguments);
 		});
+	}
+	DropDown.prototype.hover = function() {
+		if (this.holder) {
+			var hoverClass = 'dropdown__menu-item--hover';
+
+			this.holder.addEventListener('mouseenter', function(ev) {
+				var target = ev.target || ev.srcElement;
+
+				if (target.classList.contains())
+					if (target.classList.contains(hoverClass))
+						target.classList.add(hoverClass)
+			});
+
+			this.holder.addEventListener('mouseleave', function(ev) {
+				var target = ev.target || ev.srcElement;
+
+				if (target.classList.contains())
+					if (target.classList.contains(hoverClass))
+						target.classList.add(hoverClass)
+			});
+		}
 	}
 	DropDown.prototype.refreshContent = function(text) {
 		var self = this;

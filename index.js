@@ -32,7 +32,7 @@ class Router {
 		this.app.use(kr.post("/put-note", function*() {
 			try {
 				let id = yield db.upsert(this.request.body);
-				console.log("id" + id);
+				
 				this.body = id;
 			} catch (err) {
 				this.status = 500;
@@ -54,7 +54,7 @@ class Router {
 
 		this.app.use(kr.post('/query-category', function*() {
 			try {
-				console.log(this.request.body.cat);
+				
 				let rows = yield db.queryAllByCategory(this.request.body.cat);
 				this.body = JSON.stringify(rows);
 			} catch (error) {
@@ -66,16 +66,17 @@ class Router {
 
 		this.app.use(kr.post('/query-one', function*() {
 			try {
+				console.log(this.request.headers);
 				let datas = yield db.queryOne(this.request.body.id);
 				this.body = JSON.stringify(datas);
 			} catch (error) {
 				this.status = 500;
-				this.body = err;
+				this.body =error;
 			}
 		}));
 
 		this.app.use(kr.post('/search', function*() {
-			console.log("searching'");
+			
 			try {
 				let datas = yield db.search(this.request.body.search);
 				this.body = JSON.stringify(datas);

@@ -1,4 +1,4 @@
-var $ajax = (function() {
+var $ajax = (function () {
 	var _ajax = {
 		defaluts: {
 			method: 'POST'
@@ -9,19 +9,34 @@ var $ajax = (function() {
 	function fetch(url, options) {
 		options = options || {};
 		$object.extend(_ajax.defaluts, options);
-		return new Promise(function(resolve, reject) {
+		return new Promise(function (resolve, reject) {
 
 
 			var request = new XMLHttpRequest();
-			console.log(_ajax.defaluts.method);
 			request.open(_ajax.defaluts.method, url, true);
 			request.onload = onload;
 			request.onerror = onerror;
+			// request.timeout = 1000;
+			// request.ontimeout = function() {
+
+			// }
+			// request.onreadystatechange = function() {
+
+			// 	}
 			//request.onprogress = onprogress;
 			var data = _ajax.defaluts.data || '';
-			request.send(data);
+
+
+			request.setRequestHeader("content-type", "text/plain;charset=UTF-8")
+			try {
+				request.send(data);
+
+			} catch (error) {
+
+			}
 
 			function onload() {
+
 				if (request.status === 200) {
 					resolve(request.responseText);
 				} else {
@@ -30,6 +45,7 @@ var $ajax = (function() {
 			}
 
 			function onerror() {
+
 				reject(new Error("Can't XHR " + JSON.stringify(url)));
 			}
 
@@ -48,4 +64,4 @@ var $ajax = (function() {
 	_ajax.fetch = fetch;
 	_ajax.html = html;
 	return _ajax;
-}());
+} ());

@@ -8,7 +8,7 @@ var $slideLayout = (function() {
 	SlideLayout.prototype.init = function() {
 		this.ele = document.querySelector('.slide-layout .menu');
 		var toggleButton = document.querySelector('.header-toggle-btn');
-		var slideLayout = $(document.querySelector('.slide-layout'));
+		var slideLayout = $('.slide-layout');
 
 		this.settingsSelect();
 		this.settingsSearch();
@@ -57,15 +57,17 @@ var $slideLayout = (function() {
 		searchInput.addEventListener('input', function() {
 			clearTimeout(timeout);
 			timeout = setTimeout(function() {
+				console.time("filter")
 				var c = searchInput.value;
 				if (c.trim())
 					self.filter(c);
 				else {
 					var ls = note_list.children;
 					for (l = ls.length; l--;) {
-						ls[l].setAttribute('style', '');
+						ls[l].classList.remove('hidden');
 					}
 				}
+				console.timeEnd("filter");
 			}, 50);
 		})
 
@@ -76,14 +78,17 @@ var $slideLayout = (function() {
 	SlideLayout.prototype.filter = function(v) {
 		v = eval('/' + v + '/i')
 		var ls = note_list.children;
+
 		for (l = ls.length; l--;) {
 			var c = ls[l];
-			var vc = c.children[0].getAttribute('title');
 
-			if (!~vc.search(v)) {
-				c.style.display = 'none';
+
+			if (!~c.textContent.search(v)) {
+				if (!c.classList.contains('hidden'))
+					c.classList.add('hidden');
 			} else {
-				ls[l].setAttribute('style', '');
+				if (c.classList.contains('hidden'))
+					c.classList.remove('hidden');
 			}
 		}
 	}

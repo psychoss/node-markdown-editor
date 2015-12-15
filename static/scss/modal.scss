@@ -12,10 +12,12 @@
 	max-height: 70%;
 	overflow-y: auto;
 	padding: 0;
-	position: fixed;
+	position: absolute;
+	top: 0;
+	transform: translateY(-100%);
 	right: 0;
 	width: 55%;
-	will-change: top, opacity;
+	will-change: top;
 }
 
 // .modal-shadow {

@@ -6,7 +6,7 @@ var $log = (function() {
 		if (l.turnoff ^ 0)
 			console.trace(" Debug: ", arguments);
 	}
-
+  
 	function e() {
 		if (l.turnoff ^ 0)
 			console.error("Error:", arguments);

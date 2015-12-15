@@ -1,4 +1,4 @@
-var $ajax = (function() {
+var $ajax = (function () {
 	var _ajax = {
 		defaluts: {
 			method: 'POST'
@@ -9,19 +9,34 @@ var $ajax = (function() {
 	function fetch(url, options) {
 		options = options || {};
 		$object.extend(_ajax.defaluts, options);
-		return new Promise(function(resolve, reject) {
+		return new Promise(function (resolve, reject) {
 
 
 			var request = new XMLHttpRequest();
-			console.log(_ajax.defaluts.method);
 			request.open(_ajax.defaluts.method, url, true);
 			request.onload = onload;
 			request.onerror = onerror;
+			// request.timeout = 1000;
+			// request.ontimeout = function() {
+
+			// }
+			// request.onreadystatechange = function() {
+
+			// 	}
 			//request.onprogress = onprogress;
 			var data = _ajax.defaluts.data || '';
-			request.send(data);
+
+
+			request.setRequestHeader("content-type", "text/plain;charset=UTF-8")
+			try {
+				request.send(data);
+
+			} catch (error) {
+
+			}
 
 			function onload() {
+
 				if (request.status === 200) {
 					resolve(request.responseText);
 				} else {
@@ -30,6 +45,7 @@ var $ajax = (function() {
 			}
 
 			function onerror() {
+
 				reject(new Error("Can't XHR " + JSON.stringify(url)));
 			}
 
@@ -48,7 +64,7 @@ var $ajax = (function() {
 	_ajax.fetch = fetch;
 	_ajax.html = html;
 	return _ajax;
-}());
+} ());
 
 
 var $animation = (function() {
@@ -213,66 +229,116 @@ var $hash = (function() {
 
 
 var $ = (function() {
-	return function $(id) {
-		var el = 'string' == typeof id ? document.getElementById(id) : id;
+	var _$ = function $(element) {
 
-		el.on = function(event, fn) {
-			if ('ready' == event) {
-				event = window.attachEvent ? "load" : "DOMContentLoaded";
+		if (typeof element === 'string') {
+			if (/(^| )#[a-z0-9\-_]+$/i.test(element)) {
+				element = document.getElementById(element);
+			} else if ("querySelector" in document) {
+				element = document.querySelector(element);
 			}
-			el.addEventListener ? el.addEventListener(event, fn, false) : el.attachEvent("on" + event, fn);
-		};
+		} else if (Object.prototype.toString.call(element).indexOf("HTML") !== -1) {
+			element = element;
+		} else {
+			throw new Error("invalide selector or DOM object");
+		}
+		//
+		element.on = function(event, fn) {
+				element.addEventListener ? element.addEventListener(event, fn, false) : element.attachEvent("on" + event, fn);
+			}
+			//
+		element.removeClass = function(className) {
 
-		el.all = function(selector) {
-			return $(el.querySelectorAll(selector));
-		};
-		el.find = function(selector) {
-			return el.querySelector(selector);
-		}
-		el.each = function(fn) {
-			for (var i = 0, len = el.length; i < len; ++i) {
-				fn($(el[i]), i);
+			if (~element.className.indexOf(className)) {
+				element.className = element.className.slice(0, element.className.indexOf(className)) + element.className.slice(element.className.indexOf(className) + className.length);
 			}
-		};
+			// if("classList" in element && element.classList.contains(className)){
+			// 	element.classList.remove(className)
+			// }else{
+			// 	element.className.split(' ').reduce
+			// }
+			// var r=new RegExp("(^| )".concat(className).concat("( |$)"))
 
-		el.getClasses = function() {
-			return this.getAttribute('class').split(/\s+/);
-		};
+		}
+		element.addClass = function(className) {
+			if (!~element.className.indexOf(className)) {
+				element.className = element.className.trim().concat(" ").concat(className);
+			}
+			// if ("classList" in element && !element.classList.contains(className)) {
+			// 	element.classList.add(className)
+			// } else {
+			// 	element.className.split(' ').reduce
+			// }
+		}
+		return element;
 
-		el.addClass = function(name) {
-			var classes = this.getAttribute('class');
-			if (classes.indexOf(name) === -1) {
-				el.setAttribute('class', classes ? classes + ' ' + name : name);
-			}
-		};
-
-		el.removeClass = function(name) {
-			var classes = this.getAttribute('class');
-			if (~classes.indexOf(name)) {
-				el.setAttribute('class', classes ? classes.replace(name, "").trim() : name);
-			}
-		};
-		el.css = function(name, value) {
-			return value ? el.style[name] = value : el.style[name];
-		}
-		el.attr = function(name, value) {
-			return value ? el.setAttribute(name, value) : el.getAttribute(name);
-		}
-		el.html = function(value) {
-			return value ? el.innerHTML = value : el.innerHTML;
-		}
-		el.delete = function() {
-			if (el.remove) {
-				el.remove()
-			} else {
-				el.parentNode.removeChild(el);
-			}
-		}
-		return el;
 	}
 
-
+	return _$;
 }());
+
+
+// var $ = (function() {
+// 	return function $(id) {
+// 		var el = 'string' == typeof id ? document.getElementById(id) : id;
+
+// 		el.on = function(event, fn) {
+// 			if ('ready' == event) {
+// 				event = window.attachEvent ? "load" : "DOMContentLoaded";
+// 			}
+// 			el.addEventListener ? el.addEventListener(event, fn, false) : el.attachEvent("on" + event, fn);
+// 		};
+
+// 		el.all = function(selector) {
+// 			return $(el.querySelectorAll(selector));
+// 		};
+// 		el.find = function(selector) {
+// 			return el.querySelector(selector);
+// 		}
+// 		el.each = function(fn) {
+// 			for (var i = 0, len = el.length; i < len; ++i) {
+// 				fn($(el[i]), i);
+// 			}
+// 		};
+
+// 		el.getClasses = function() {
+// 			return this.getAttribute('class').split(/\s+/);
+// 		};
+
+// 		el.addClass = function(name) {
+// 			var classes = this.getAttribute('class');
+// 			if (classes.indexOf(name) === -1) {
+// 				el.setAttribute('class', classes ? classes + ' ' + name : name);
+// 			}
+// 		};
+
+// 		el.removeClass = function(name) {
+// 			var classes = this.getAttribute('class');
+// 			if (~classes.indexOf(name)) {
+// 				el.setAttribute('class', classes ? classes.replace(name, "").trim() : name);
+// 			}
+// 		};
+// 		el.css = function(name, value) {
+// 			return value ? el.style[name] = value : el.style[name];
+// 		}
+// 		el.attr = function(name, value) {
+// 			return value ? el.setAttribute(name, value) : el.getAttribute(name);
+// 		}
+// 		el.html = function(value) {
+// 			return value ? el.innerHTML = value : el.innerHTML;
+// 		}
+// 		el.delete = function() {
+// 			if (el.remove) {
+// 				el.remove()
+// 			} else {
+// 				el.parentNode.removeChild(el);
+// 			}
+// 		}
+// 		return el;
+// 	}
+
+
+// }());
 
 
 var $json = (function () {
@@ -293,7 +359,7 @@ var $log = (function() {
 		if (l.turnoff ^ 0)
 			console.trace(" Debug: ", arguments);
 	}
-
+  
 	function e() {
 		if (l.turnoff ^ 0)
 			console.error("Error:", arguments);
@@ -410,6 +476,27 @@ var $object = (function() {
 }());
 
 
+;(function() {
+	window.requestIdleCallback = window.requestIdleCallback ||
+		function(cb) {
+			var start = Date.now();
+			return setTimeout(function() {
+				cb({
+					didTimeout: false,
+					timeRemaining: function() {
+						return Math.max(0, 50 - (Date.now() - start));
+					}
+				});
+			}, 1);
+		}
+
+	window.cancelIdleCallback = window.cancelIdleCallback ||
+		function(id) {
+			clearTimeout(id);
+		}
+}());
+
+
 ;
 (function() {
 
@@ -505,6 +592,20 @@ var $string = (function() {
 }());
 
 
+(function () {
+	// cache escapable characters RegExp
+	var rEscapableCharacters = /[-\/\\^$*+?.()|[\]{}]/g;
+
+	// cache escape + match String
+	var sEscapeMatch = '\\$&';
+
+	// RegExp.escape
+	RegExp.escape = function escape(string) {
+		return String(string).replace(rEscapableCharacters, sEscapeMatch);
+	};
+})();
+
+
 var $type = (function() {
 
 	var _type = {};
@@ -568,9 +669,6 @@ var $validator = (function() {
 }());
 
 
-
-
-
 ;
 (function() {
 	function DropDown(parameters) {
@@ -600,10 +698,12 @@ var $validator = (function() {
 	}
 
 	DropDown.prototype.init = function() {
-
+		var container = document.createDocumentFragment();
 		this.showing = false;
 		this.holder = document.createElement('div');
-		document.body.appendChild(this.holder);
+
+		container.appendChild(this.holder)
+		document.body.appendChild(container);
 		//this.holder.setAttribute('class', this.CONST.holder);
 
 		this.bindEvent();
@@ -713,6 +813,27 @@ var $validator = (function() {
 		$ajax.html(this.template).then(ok, function() {
 			console.log(arguments);
 		});
+	}
+	DropDown.prototype.hover = function() {
+		if (this.holder) {
+			var hoverClass = 'dropdown__menu-item--hover';
+
+			this.holder.addEventListener('mouseenter', function(ev) {
+				var target = ev.target || ev.srcElement;
+
+				if (target.classList.contains())
+					if (target.classList.contains(hoverClass))
+						target.classList.add(hoverClass)
+			});
+
+			this.holder.addEventListener('mouseleave', function(ev) {
+				var target = ev.target || ev.srcElement;
+
+				if (target.classList.contains())
+					if (target.classList.contains(hoverClass))
+						target.classList.add(hoverClass)
+			});
+		}
 	}
 	DropDown.prototype.refreshContent = function(text) {
 		var self = this;
@@ -859,18 +980,27 @@ var $validator = (function() {
  	 * ------------------------------------------------------------------------
  	 */
  	function getContent(id) {
+ 		
+ 		
  		$ajax.fetch("/query-one", {
  			method: 'POST',
  			data: JSON.stringify({
  				id: id
  			})
  		}).then(function(v) {
+ 			
+
  			// a hack for parse the json string to object
  			var data = new Function('return ' + v)();
  			if (data.category) {
+
+ 				var sel = document.querySelector('.category.is-selected');
+ 				if (sel) {
+ 					sel.classList.remove('is-selected')
+ 				}
+
  				if (!e.category.length)
  					e.category = document.querySelectorAll('.dropdown__menu-item.category');
- 				console.log(e.category);
  				var i = e.category.length;
 
  				for (; i--;) {
@@ -882,8 +1012,9 @@ var $validator = (function() {
  			e.setValue(data.content);
  			document.body.setAttribute('data-binding', data._id);
  			document.querySelector('title').innerHTML = data.title;
+
  		}, function() {
- 			$log.e(arguments);
+ 			
  		});
  	}
 
@@ -962,9 +1093,9 @@ var $validator = (function() {
  					data: JSON.stringify(datas)
  				}).then(function(v) {
  					status(0);
- 					console.log("the di return by server is " + v);
+ 					
  					if (+v !== 0) {
- 						console.log("changed the body data-binding");
+ 						
  						document.body.setAttribute('data-binding', v)
  					}
  					Notifier.show("Success.", {
@@ -973,7 +1104,7 @@ var $validator = (function() {
  					if (document.querySelector('title').innerHTML !== title) {
  						document.querySelector('title').innerHTML = title;
  						$ajax.fetch("/query-all").then(function(v) {
- 							SlideLayout.refresh(v);
+ 							$slideLayout.refresh(v);
  						}, function() {});
  					}
  				}, function() {
@@ -1097,10 +1228,10 @@ var $validator = (function() {
  				var str = selectedText().trim().split('\n');
  				var c = "";
  				var line = "";
- 				console.log(str);
+ 				
  				for (var l = 0; l < str.length; l++) {
  					line = str[l]
- 					console.log(line);
+ 					
  					if (l % 2 === 0) {
  						c += "- **" + line + "**\n\n"
  					} else {
@@ -1115,6 +1246,12 @@ var $validator = (function() {
  				var ds = date.toJSON().split(/[a-z]/i)[0]
  				var str = selectedText()
  				replaceSelectedText(str + ds);
+ 			},
+ 			addImage: function() {
+ 				var date = new Date
+ 				var ds = date.toJSON().split(/[a-z]/i)[0]
+ 				var str = selectedText()
+ 				replaceSelectedText(str + "![](/images/" + ds + "/) ");
  			},
  			hr: function() {
  				var str = selectedText()
@@ -1193,6 +1330,9 @@ var $validator = (function() {
  	}, {
  		name: 'hr',
  		exec: commands.hr
+ 	}, {
+ 		name: 'addImage',
+ 		exec: commands.addImage
  	}]
 
  	/**
@@ -1230,95 +1370,94 @@ var $validator = (function() {
 
 var $Modal = (function() {
 
-  function Modal(ele) {
-    if (!ele) return;
-    this.ele = ele;
+	function Modal(ele) {
+		if (!ele) return;
+		this.ele = ele;
 
-    this.init()
-  }
-  Modal.prototype.CONST = {
-    DURATION: 500,
-    status: 0,
-    closeButton: '.btn-close'
-  }
-  Modal.prototype.init = function() {
-    this.close = this.ele.querySelector(this.CONST.closeButton);
-    this.bindEvent();
-  }
-  Modal.prototype.bindEvent = function() {
-    if (this.close) {
-      this.close.addEventListener('click', this.hide.bind(this))
-    }
-  }
-  Modal.prototype.hide = function() {
-    var this_ = this;
-    this.CONST.status = 0;
-    this.animate({
-      easing: TWEEN.Easing.Quadratic.Out,
-      duration: 350,
-      mapFrom: {
-        top: 50
-      },
-      mapTo: {
-        top: -this_.ele.clientHeight * 1.2
-      },
-      onupdate: function() {
-        this_.ele.style.top = this.top + "px"
-      }
-    })
-  }
-  Modal.prototype.show = function() {
+		this.init()
+	}
+	Modal.prototype.CONST = {
+		DURATION: 500,
+		status: 0,
+		closeButton: '.btn-close'
+	}
+	Modal.prototype.init = function() {
+		this.close = this.ele.querySelector(this.CONST.closeButton);
+		this.bindEvent();
+	}
+	Modal.prototype.bindEvent = function() {
+		if (this.close) {
+			this.close.addEventListener('click', this.hide.bind(this))
+		}
+	}
+	Modal.prototype.hide = function() {
+		var this_ = this;
+		this.CONST.status = 0;
+		this.animate({
+			easing: TWEEN.Easing.Quadratic.Out,
+			duration: 350,
+			mapFrom: {
+				top: 50
+			},
+			mapTo: {
+				top: -this_.ele.clientHeight * 1.2
+			},
+			onupdate: function() {
+				this_.ele.style.transform = 'translateY(' + this.top + 'px)';
+			}
+		})
+	}
+	Modal.prototype.show = function() {
 
-    var this_ = this;
-    if (this.CONST.status) {
-      return;
-    }
-    this.CONST.status = 1;
-    this.animate({
-      easing: TWEEN.Easing.Quadratic.In,
-      duration: 350,
-      mapFrom: {
-        top: -this_.ele.clientHeight * 1.2
-      },
-      mapTo: {
-        top: 50
-      },
-      onupdate: function() {
-        this_.ele.style.top = this.top + "px"
-      }
-    })
-  }
-  Modal.prototype.animate = function(animateDatas) {
+		var this_ = this;
+		if (this.CONST.status) {
+			return;
+		}
+		this.CONST.status = 1;
+		this.animate({
+			easing: TWEEN.Easing.Quadratic.In,
+			duration: 350,
+			mapFrom: {
+				top: -this_.ele.clientHeight * 1.2
+			},
+			mapTo: {
+				top: 50
+			},
+			onupdate: function() {
+				this_.ele.style.transform = 'translateY(' + this.top + 'px)';
+			}
+		})
+	}
+	Modal.prototype.animate = function(animateDatas) {
 
-    var duration = animateDatas.duration || this.CONST.DURATION;
-    var easing = animateDatas.easing || TWEEN.Easing.Linear.None;
+		var duration = animateDatas.duration || this.CONST.DURATION;
+		var easing = animateDatas.easing || TWEEN.Easing.Linear.None;
 
-    var onComplete = animateDatas.oncomplete || function() {
-      TWEEN.removeAll();
-    }
-    var tween = new TWEEN.Tween(animateDatas.mapFrom)
-      .to(animateDatas.mapTo, duration)
-      .onUpdate(animateDatas.onupdate)
-      .onComplete(onComplete)
-      .easing(easing)
-      .start();
+		var onComplete = animateDatas.oncomplete || function() {
+			TWEEN.removeAll();
+		}
+		var tween = new TWEEN.Tween(animateDatas.mapFrom)
+			.to(animateDatas.mapTo, duration)
+			.onUpdate(animateDatas.onupdate)
+			.onComplete(onComplete)
+			.easing(easing)
+			.start();
 
-    requestAnimationFrame(animate);
+		requestAnimationFrame(animate);
 
-    function animate(time) {
-      requestAnimationFrame(animate);
-      TWEEN.update(time);
-    }
-  }
-  Modal.prototype.find = function(selector) {
-    return this.ele.querySelector(selector);
-  }
-  return Modal;
+		function animate(time) {
+			requestAnimationFrame(animate);
+			TWEEN.update(time);
+		}
+	}
+	Modal.prototype.find = function(selector) {
+		return this.ele.querySelector(selector);
+	}
+	return Modal;
 }());
 
 
-
-var Notifier = (function() {
+var Notifier = (function () {
 
 	var notifier = {
 		template: [
@@ -1353,33 +1492,10 @@ var Notifier = (function() {
 		}
 		notifier.showing = 1;
 		$object.extend(notifier.defaults, options);
-
-
 		var n = notifier.instance;
 		n.innerHTML = notifier.template.join("\n").fmt(message);
-
-		// var throttle = notifier.defaults.offsetTop;
-		// var offset = window.innerHeight - (throttle * 2);
-		// var step = Math.ceil(offset / (notifier.animationDuration / 25));
-		// $log.d("offset", offset, throttle, step)
 		n.setAttribute('type', notifier.defaults.style);
-		//n.style.opacity = 0;
-		// var animation = function() {
-		// 	// if (offset > throttle) {
-		// 	// 	offset -= step;
-		// 	// 	window.requestAnimationFrame(animation)
-		// 	// }
-		// 	// n.style.opacity = 1;
-		// 	// n.style.top = offset + 'px'
-
-		// 	n.style.top = '300px'
-		// }
-		// window.requestAnimationFrame(animation)
-		//n.style.top = '30px'
 		n.classList.add("show");
-		// n.addEventListener("animationstart", function() {
-		// 	console.log(arguments);
-		// }, false);
 		clearTimeout(notifier.timeout);
 		notifier.timeout = setTimeout(hide, notifier.defaults.duration);
 	}
@@ -1395,7 +1511,7 @@ var Notifier = (function() {
 
 	notifier.show = show;
 	return notifier;
-}());
+} ());
 
 
 var $slideLayout = (function() {
@@ -1408,7 +1524,7 @@ var $slideLayout = (function() {
 	SlideLayout.prototype.init = function() {
 		this.ele = document.querySelector('.slide-layout .menu');
 		var toggleButton = document.querySelector('.header-toggle-btn');
-		var slideLayout = $(document.querySelector('.slide-layout'));
+		var slideLayout = $('.slide-layout');
 
 		this.settingsSelect();
 		this.settingsSearch();
@@ -1457,15 +1573,17 @@ var $slideLayout = (function() {
 		searchInput.addEventListener('input', function() {
 			clearTimeout(timeout);
 			timeout = setTimeout(function() {
+				console.time("filter")
 				var c = searchInput.value;
 				if (c.trim())
 					self.filter(c);
 				else {
 					var ls = note_list.children;
 					for (l = ls.length; l--;) {
-						ls[l].setAttribute('style', '');
+						ls[l].classList.remove('hidden');
 					}
 				}
+				console.timeEnd("filter");
 			}, 50);
 		})
 
@@ -1476,14 +1594,17 @@ var $slideLayout = (function() {
 	SlideLayout.prototype.filter = function(v) {
 		v = eval('/' + v + '/i')
 		var ls = note_list.children;
+
 		for (l = ls.length; l--;) {
 			var c = ls[l];
-			var vc = c.children[0].getAttribute('title');
 
-			if (!~vc.search(v)) {
-				c.style.display = 'none';
+
+			if (!~c.textContent.search(v)) {
+				if (!c.classList.contains('hidden'))
+					c.classList.add('hidden');
 			} else {
-				ls[l].setAttribute('style', '');
+				if (c.classList.contains('hidden'))
+					c.classList.remove('hidden');
 			}
 		}
 	}
