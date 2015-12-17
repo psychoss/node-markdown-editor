@@ -31,10 +31,12 @@ class Router {
 	init() {
 		this.app.use(kr.post("/put-note", function*() {
 			try {
+				console.log("/put-note");
 				let id = yield db.upsert(this.request.body);
 				
 				this.body = id;
 			} catch (err) {
+				console.log(err);
 				this.status = 500;
 				this.body = err;
 			}

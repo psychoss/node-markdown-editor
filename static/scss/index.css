@@ -562,6 +562,14 @@ code { padding: 2px 4px; font-size: 90%; color: #c7254e; background-color: #f9f2
 
 .comment { color: #969896; }
 
+.keyword { color: #a71d5d; }
+
+.string { color: #183691; }
+
+.operator { color: #069; }
+
+.function { color: #0086b3; }
+
 .inline-block { position: relative; display: inline-block; }
 
 .no-focus-outline:focus { outline: 0; }

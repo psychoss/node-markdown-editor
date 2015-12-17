@@ -86,6 +86,7 @@
 		}.bind(this);
 
 		$ajax.fetch("/put-note", {
+			method:'POST',
 			data: body
 		}).then(success, this.notifyWarn)
 	}

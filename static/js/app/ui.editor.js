@@ -11,6 +11,7 @@ var editor = (function() {
 	marked.setOptions({
 		highlight: function(code) {
 
+			//return Prism.highlight (code);
 			return code.replace(/[<>]/g, function(m) {
 				if (m === '<')
 					return '&lt;'

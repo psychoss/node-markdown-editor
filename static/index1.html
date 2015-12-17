@@ -1,174 +1,131 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+    <meta http-equiv="Content-Language" content="zh">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
     <title></title>
-    <link rel="stylesheet" href="scss/index.css">
-
+    <link href="/home/psycho/RESOURCE/归档/web/static/scss/index.css" rel="stylesheet">
+    <style></style>
 </head>
 
 <body>
-    <div class="header">
-        <div class="toolbar">
-            <div class="toolbar-wrapper">
-                <span class="toolbar-separator"></span>
-                <a class="toolbar-button editor-new-btn">
-                    <i class="material-icons">&#xE89C;</i>
-                </a>
-                <a class="toolbar-button editor-save-btn">
-                    <i class="material-icons">save</i>
-                </a>
-                <span class="toolbar-separator"></span>
-                <a class="toolbar-button editor-head-btn">
-                    <i class="material-icons">&#xE145;</i>
-                </a>
-                <a class="toolbar-button editor-bold-btn">
-                    <i class="material-icons">format_bold</i>
-                </a>
-                <a class="toolbar-button editor-italic-btn">
-                    <i class="material-icons">format_italic</i>
-                </a>
-                <a class="toolbar-button editor-code-btn">
-                    <i class="material-icons">code</i>
-                </a>
-                <span class="toolbar-separator"> </span>
-                <a class="toolbar-button editor-sort-btn">
-                    <i class="material-icons">&#xE053;</i>
-                </a>
-                <a class="toolbar-button editor-indent-btn">
-                    <i class="material-icons">&#xE23D;</i>
-                </a>
+    <div class="markdown-body">
+    <pre>
+        <code id="c">
+            use std::default::Default;
+use std::fs;
+use std::path::Path;
 
-                <a class="toolbar-button editor-bulleted-btn">
-                    <i class="material-icons">format_list_bulleted</i>
-                </a>
-                <a class="toolbar-button editor-numeric-btn">
-                    <i class="material-icons">&#xE242;</i>
-                </a>
-                <span class="toolbar-separator"></span>
-                <a class="toolbar-button editor-hr-btn">
-                    <i class="material-icons">remove</i>
-                </a>
-                <a class="toolbar-button editor-insert-link-btn">
-                    <i class="material-icons">&#xE250;</i>
-                </a>
-                <a class="toolbar-button editor-insert-image-btn">
-                    <i class="material-icons">&#xE251;</i>
-                </a>
-                <span class="toolbar-separator"></span>
-                <a class="toolbar-button editor-undo-btn" aria-label="Undo">
-                    <i class="material-icons">undo</i>
-                </a>
-                <a class="toolbar-button editor-redo-btn" aria-label="Redo">
-                    <i class="material-icons">redo</i>
-                </a>
-                <span class="toolbar-separator"></span>
-                <a class="toolbar-button js-button-active">
-                    <i class="material-icons">&#xE923;</i>
-                </a>
-                <a class="toolbar-button">
-                    <i class="material-icons">&#xE8B6;</i>
-                </a>
-                <a class="toolbar-button" id="toolbar-notes">
-                    <i class="material-icons">&#xE02F;</i>
-                </a>
-                <div class="dropdown-note dropdown no-gutter no-clear " data-target="toolbar-notes">
-                    <div class="dropdown-header">
-                        <input type="text" id="search-title">
-                        <span class="btn-close">
-					<i class="material-icons">close</i>
-							
-						</span>
+use core::{Package, PackageSet, Profiles};
+use core::source::{Source, SourceMap};
+use core::registry::PackageRegistry;
+use util::{CargoResult, human, ChainError, Config};
+use ops::{self, Layout, Context, BuildConfig, Kind, Unit};
 
-                    </div>
+pub struct CleanOptions<'a> {
+    pub spec: &'a [String],
+    pub target: Option<&'a str>,
+    pub config: &'a Config,
+    pub release: bool,
+}
 
+/// Cleans the project from build artifacts.
+pub fn clean(manifest_path: &Path, opts: &CleanOptions) -> CargoResult<()> {
+    let root = try!(Package::for_path(manifest_path, opts.config));
+    let target_dir = opts.config.target_dir(&root);
 
-                    <div class="fixed">
+    // If we have a spec, then we need to delete some packages, otherwise, just
+    // remove the whole target directory and be done with it!
+    if opts.spec.len() == 0 {
+        return rm_rf(&target_dir);
+    }
 
-                    </div>
+    // Load the lockfile (if one's available)
+    let lockfile = root.root().join("Cargo.lock");
+    let source_id = root.package_id().source_id();
+    let resolve = match try!(ops::load_lockfile(&lockfile, source_id)) {
+        Some(resolve) => resolve,
+        None => bail!("a Cargo.lock must exist before cleaning")
+    };
 
+    // Create a compilation context to have access to information like target
+    // filenames and such
+    let srcs = SourceMap::new();
+    let pkgs = PackageSet::new(&[]);
 
+    let dest = if opts.release {"release"} else {"debug"};
+    let host_layout = Layout::new(opts.config, &root, None, dest);
+    let target_layout = opts.target.map(|target| {
+        Layout::new(opts.config, &root, Some(target), dest)
+    });
 
-                    <!--<div class="note-item" data-bind="{_id}">
-						<div class="note-item-content">
-							<div class="note-item-title">
-								{title}
-							</div>
-							<div class="note-item-date">
-								{modified}
-							</div>
-						</div>
-					</div>-->
+    let cx = try!(Context::new(&resolve, &srcs, &pkgs, opts.config,
+                               host_layout, target_layout,
+                               BuildConfig::default(),
+                               root.manifest().profiles()));
 
+    let mut registry = PackageRegistry::new(opts.config);
 
-                </div>
-                <a class="toolbar-button view-hide-editor js-button-active">
-                    <i class="material-icons">&#xE8EA;</i>
-                </a>
+    // resolve package specs and remove the corresponding packages
+    for spec in opts.spec {
+        let pkgid = try!(resolve.query(spec));
 
-                <a class="toolbar-button" id="toolbar-more">
-                    <i class="material-icons">&#xE5D3;</i>
-                </a>
+        // Translate the PackageId to a Package
+        let pkg = {
+            try!(registry.add_sources(&[pkgid.source_id().clone()]));
+            (try!(registry.get(&[pkgid.clone()]))).into_iter().next().unwrap()
+        };
 
+        // And finally, clean everything out!
+        for target in pkg.targets() {
+            for kind in [Kind::Host, Kind::Target].iter() {
+                let layout = cx.layout(&pkg, *kind);
+                try!(rm_rf(&layout.proxy().fingerprint(&pkg)));
+                try!(rm_rf(&layout.build(&pkg)));
+                let Profiles {
+                    ref release, ref dev, ref test, ref bench, ref doc,
+                    ref custom_build,
+                } = *root.manifest().profiles();
+                for profile in [release, dev, test, bench, doc, custom_build].iter() {
+                    let unit = Unit {
+                        pkg: &pkg,
+                        target: target,
+                        profile: profile,
+                        kind: *kind,
+                    };
+                    let root = cx.out_dir(&unit);
+                    for filename in try!(cx.target_filenames(&unit)).iter() {
+                        try!(rm_rf(&root.join(&filename)));
+                    }
+                }
+            }
+        }
+    }
 
-                <div class="dropdown-more dropdown" data-target="toolbar-more">
-                    <a class="editor-fmt-2-json">Format Code for JSON</a>
-                </div>
+    Ok(())
+}
 
-            </div>
-        </div>
-    </div>
-    <div class="container">
-
-        <div id="editor" class="editor">
-
-        </div>
-        <div class="container-placeholder" style="width:50%"></div>
-        <div class="markdown-body">
-
-        </div>
-    </div>
-
-
-    <!--<script src="ace/snippets/markdown.js"></script>-->
-
-    <ul class="menu is-active shadow-4">
-        <li><a data-command="copy">Copy</a></li>
-        <li><a>Paste</a></li>
-        <li><a>Cut</a></li>
-
-        <li class="divider"> </li>
-    </ul>
-    <script src="js/angular.js"></script>
-    <script src="js/marked.js"></script>
-    <script src="ace/ace.js"></script>
-    <script src="ace/ext/ext-language_tools.js"></script>
-
-    <!-- Components -->
-    <script src="js/index.js"></script>
-    <script src="js/editor.js"></script>
-
-    <script src="js/app.js"></script>
+fn rm_rf(path: &Path) -> CargoResult<()> {
+    let m = fs::metadata(path);
+    if m.as_ref().map(|s| s.is_dir()).unwrap_or(false) {
+        try!(fs::remove_dir_all(path).chain_error(|| {
+            human("could not remove build directory")
+        }));
+    } else if m.is_ok() {
+        try!(fs::remove_file(path).chain_error(|| {
+            human("failed to remove build artifact")
+        }));
+    }
+    Ok(())
+}
+            </code>
+    </pre></div>
+    <script type="text/javascript" src="/home/psycho/RESOURCE/归档/web/static/js/app/_utilities.highlight.js"></script>
+    
     <script>
-        var he= document.querySelector('.view-hide-editor')
-        document.addEventListener('keypress',function(ev){
-            console.log(ev);
-        })
-		he.addEventListener('click',function(ev){
-			if(ev.target.classList.contains('is-hide')){
-				document.getElementById('editor').style.display='block';
-			document.querySelector('.container-placeholder').style.width="50%";
-			document.querySelector('.markdown-body').style.maxWidth="50%";
-			ev.target.classList.remove('is-hide');
-			return;
-			}
-			document.getElementById('editor').style.display='none';
-			document.querySelector('.container-placeholder').style.width=0;
-			document.querySelector('.markdown-body').style.maxWidth="100%";
-			ev.target.classList.add('is-hide');
-		})
-        // document.querySelector('dialog').showModal();
+        c.innerHTML=$highlight.highlight(c.innerHTML);
     </script>
 </body>
 
