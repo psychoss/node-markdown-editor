@@ -61,7 +61,7 @@
 
 
 	// When the page loaded, get the note list from web server.
-	$slideLayout.refreshDefault();
+	//$slideLayout.refreshDefault();
 	document.addEventListener('keydown', function(ev) {
 		var k = (ev.which || ev.keyCode);
 		// Prevent page backforward on pressing BackSpace.
@@ -73,7 +73,19 @@
 			console.log(ev)
 			ev.preventDefault();
 		}
-	})
+	});
+
+	window.onbeforeunload = function(e) {
+		var message = "Are you sure leave this page?",
+			e = e || window.event;
+		// For IE and Firefox
+		if (e) {
+			e.returnValue = message;
+		}
+
+		// For Safari
+		return message;
+	};
 }());
 
 

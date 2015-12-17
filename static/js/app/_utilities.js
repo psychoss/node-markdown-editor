@@ -40,6 +40,13 @@ var $ = (function() {
 			// 	element.className.split(' ').reduce
 			// }
 		}
+		element.html = function(value) {
+			if (value === undefined && element.nodeType === 1) {
+				return element.innerHTML
+			} else if (typeof value === 'string') {
+				element.innerHTML = value;
+			}
+		}
 		return element;
 
 	}

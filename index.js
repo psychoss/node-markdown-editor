@@ -46,7 +46,7 @@ class Router {
 				this.body = JSON.stringify(rows);
 			} catch (error) {
 				this.status = 500;
-				this.body = err;
+				this.body = error;
 			}
 
 		}));
@@ -66,7 +66,6 @@ class Router {
 
 		this.app.use(kr.post('/query-one', function*() {
 			try {
-				console.log(this.request.headers);
 				let datas = yield db.queryOne(this.request.body.id);
 				this.body = JSON.stringify(datas);
 			} catch (error) {
@@ -82,7 +81,7 @@ class Router {
 				this.body = JSON.stringify(datas);
 			} catch (error) {
 				this.status = 500;
-				this.body = err;
+				this.body = error;
 			}
 		}))
 

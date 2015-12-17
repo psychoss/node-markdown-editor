@@ -7,6 +7,9 @@ var $slideLayout = (function() {
 
 	SlideLayout.prototype.init = function() {
 		this.ele = document.querySelector('.slide-layout .menu');
+
+		this.combox = document.querySelector('.combobox__name');
+
 		var toggleButton = document.querySelector('.header-toggle-btn');
 		var slideLayout = $('.slide-layout');
 
@@ -118,7 +121,19 @@ var $slideLayout = (function() {
 		}, function() {
 			console.log(arguments);
 		});
-
+	}
+	SlideLayout.prototype.refreshByCategory = function(cat) {
+		this.combox.innerHTML = cat;
+		$ajax.fetch("/query-category", {
+			method: "POST",
+			data: JSON.stringify({
+				cat: cat
+			})
+		}).then(function(v) {
+			$slideLayout.refresh(v);
+		}, function() {
+			console.log(arguments);
+		})
 	}
 
 	SlideLayout.prototype.refreshList = function(datas) {
