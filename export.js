@@ -12,7 +12,7 @@ class Manager {
 		this.db = new sqlite3.Database(filename);
 	}
 	validFileName(f) {
-		return f.replace(/[\/\"\'\?\|\:]+/g, " ");
+		return f.replace(/[\/\"\<\>\|\:\?\*\\]/g, " ");
 	}
 	queryAll() {
 		let this_ = this;

@@ -1,10 +1,82 @@
 (function() {
 
+	var cmd = [{
+		name: "Blockquote",
+		class: "command",
+		data: 'data-binding="blockquote"',
+		category: true
+	}, {
+		name: "Format to Array",
+		class: "command",
+		data: 'data-binding="fmtToarray"',
+		category: true
+	}, {
+		name: "Remove the Empty Lines",
+		class: "command",
+		data: 'data-binding="removeEmpty"',
+		category: true
+
+	}, {
+		name: "DateTime String",
+		class: "command",
+		data: 'data-binding="shortDate"',
+		category: true
+
+	}, {
+		name: "Custom List",
+		class: "command",
+		data: 'data-binding="customList"',
+		category: true
+	}];
+	var datas = [{
+		name: "Notes"
+	}, {
+		name: "C Libraries"
+	}, {
+		name: "C"
+	}, {
+		name:'Code Jam'
+	},{
+		name: "CSS Libraries"
+	}, {
+		name: "CSS"
+	}, {
+		name: "CodePen"
+	}, {
+		name: "Go Libraries"
+	}, {
+		name: "Go"
+	}, {
+		name: "Javascript Libraries"
+	}, {
+		name: "Javascript"
+	}, {
+		name: "Miscellaneous"
+	}, {
+		name: "Node.js Libraries"
+	}, {
+		name: "Node.js"
+	}, {
+		name: "Person"
+	}, {
+		name: "Rust Book"
+	}, {
+		name: "Rust Libraries"
+	}, {
+		name: "Rust"
+	}, {
+		name: "SASS"
+	}, {
+		name: "Sqlite"
+	}, ];
+
+
 	var trigger = document.querySelector('.dropdown-trigger');
 	var dropdown = new DropDown({
 		trigger: trigger,
 		template: 'template/dropdown.html',
 		loadImmediate: true,
+		datas: cmd.concat(datas),
 		loaded: function(obj) {
 
 			editor.bindCommands(obj.querySelectorAll('.command'));
@@ -23,13 +95,36 @@
 			}
 		}
 	});
-
+	/**
+	 * ------------------------------------------------------------------------
+	 * 
+	 {name: "C"},
+{name: "CSS"},
+{name: "CodePen"},
+{name: "Go Libraries"},
+{name: "Go"},
+{name: "Javascript Libraries"},
+{name: "Javascript"},
+{name: "Miscellaneous"},
+{name: "Node.js Libraries"},
+{name: "Node.js"},
+{name: "Notes"},
+{name: "Person"},
+{name: "Rust Book"},
+{name: "Rust Libraries"},
+{name: "Rust"},
+{name: "SASS"},
+{name: "Sqlite"},
+	 * ------------------------------------------------------------------------
+	 */
 
 	var categoryTrigger = document.querySelector('.categories-dropdown-trigger');
 	var categoryDropdown = new DropDown({
 		trigger: categoryTrigger,
 		template: 'template/dropdown-cat.html',
 		width: 186,
+		datas: datas,
+
 		loaded: function(obj) {
 			var dr = obj.querySelector('.dropdown')
 			if (dr) {
@@ -75,17 +170,7 @@
 		}
 	});
 
-	window.onbeforeunload = function(e) {
-		var message = "Are you sure leave this page?",
-			e = e || window.event;
-		// For IE and Firefox
-		if (e) {
-			e.returnValue = message;
-		}
 
-		// For Safari
-		return message;
-	};
 }());
 
 

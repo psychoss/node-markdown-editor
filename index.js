@@ -31,7 +31,6 @@ class Router {
 	init() {
 		this.app.use(kr.post("/put-note", function*() {
 			try {
-				console.log("/put-note");
 				let id = yield db.upsert(this.request.body);
 				
 				this.body = id;

@@ -1,8 +1,9 @@
 .dropdown {
 	width: 300px;
+	max-height: 300px;
 	margin-top: 4px;
 	margin-bottom: 20px;
-	overflow: hidden;
+	overflow-y: auto;
 	font-size: 12px;
 	color: #666;
 	background-color: #fff;

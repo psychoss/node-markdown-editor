@@ -172,9 +172,14 @@
 	<script src="ace/ext/ext-language_tools.js"></script>
 	<script src="js/index.js"></script>
 	<!--<script>
-		setTimeout(function(){
-			document.querySelector('.modal').classList.add('modal-is-visible');
-		},2000)
+		var worker=new Worker("js/worker/cat.js");
+		worker.onmessage=function(){
+			console.log(arguments);
+		}
+		worker.postMessage(3); 
+		// setTimeout(function(){
+		// 	document.querySelector('.modal').classList.add('modal-is-visible');
+		// },2000)
 		</script>-->
 </body>
 
