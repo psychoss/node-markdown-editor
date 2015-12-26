@@ -31,19 +31,25 @@
 	var datas = [{
 		name: "Notes"
 	}, {
+		name: 'Algorithms'
+	}, {
 		name: "C Libraries"
 	}, {
 		name: "C"
 	}, {
-		name:'Code Jam'
-	},{
+		name: 'Code Jam'
+	}, {
 		name: "CSS Libraries"
 	}, {
 		name: "CSS"
 	}, {
 		name: "CodePen"
 	}, {
+		name: 'Go API'
+	}, {
 		name: "Go Libraries"
+	}, {
+		name: "Go Source"
 	}, {
 		name: "Go"
 	}, {
@@ -58,9 +64,13 @@
 		name: "Node.js"
 	}, {
 		name: "Person"
+	}, {name:"PostgreSQL Cookbook"},{
+		name: "PostgreSQL"
 	}, {
-		name: "Rust Book"
+		name: "Rust API"
 	}, {
+		name: "Rust Essentials"
+	},{
 		name: "Rust Libraries"
 	}, {
 		name: "Rust"
@@ -68,7 +78,9 @@
 		name: "SASS"
 	}, {
 		name: "Sqlite"
-	}, ];
+	}, {
+		name: "Ubuntu"
+	}];
 
 
 	var trigger = document.querySelector('.dropdown-trigger');

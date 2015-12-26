@@ -17,7 +17,7 @@ var editor = (function() {
 					return '&lt;'
 				else if (m === '>')
 					return '&gt;'
-			}).replace( /(^|[^\\])\/\*[\w\W]*?\*\//g,function(m){
+			}).replace(/(^|[^\\])\/\*[\w\W]*?\*\//g, function(m) {
 				return '<span class="comment">' + m + '</span>';
 			}).replace(/(^|[^\\:])\/\/.*/g, function(m) {
 				return '<span class="comment">' + m + '</span>';
@@ -171,7 +171,7 @@ var editor = (function() {
 				var str = selectedText();
 				if (str.trim()) {
 					if (/\n/.test(str)) {
-						str = "```\n" + str.trim() + "\n```\n";
+						str = "```\n" + str+ "\n```\n";
 					} else {
 						str = " `" + str.trim() + "` ";
 					}
@@ -269,6 +269,19 @@ var editor = (function() {
 			hr: function() {
 				var str = selectedText()
 				replaceSelectedText(str + '\n---\n');
+			},sub: function() {
+				var str = selectedText()
+				replaceSelectedText("<sub>_</sub>".fmt(str.trim()));
+			},
+			sup: function() {
+				var str = selectedText()
+				replaceSelectedText("<sup>_</sup>".fmt(str.trim()));
+			},
+			filename:function(){
+				var str = selectedText();
+				str=str.replace(/```/g,"&#96;&#96;&#96;");
+					replaceSelectedText(str);
+				//replaceSelectedText( str.trim().toLowerCase().replace(/ /g,"_"));
 			}
 
 		}
@@ -340,6 +353,15 @@ var editor = (function() {
 	}, {
 		name: 'addImage',
 		exec: commands.addImage
+	}, {
+		name: 'sup',
+		exec: commands.sup
+	},  {
+		name: 'sub',
+		exec: commands.sub
+	}, {
+		name: 'filename',
+		exec: commands.filename
 	}]
 
 	/**
