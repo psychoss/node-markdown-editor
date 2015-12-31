@@ -45,6 +45,8 @@
 	}, {
 		name: "CodePen"
 	}, {
+		name: "Editor"
+	}, {
 		name: 'Go API'
 	}, {
 		name: "Go Libraries"
@@ -59,25 +61,135 @@
 	}, {
 		name: "Miscellaneous"
 	}, {
+		name: "Node.js High Performance"
+	}, {
 		name: "Node.js Libraries"
 	}, {
 		name: "Node.js"
 	}, {
 		name: "Person"
-	}, {name:"PostgreSQL Cookbook"},{
+	}, {
+		name: "PostgreSQL Cookbook"
+	}, {
 		name: "PostgreSQL"
 	}, {
 		name: "Rust API"
 	}, {
+		name: "Rust Book"
+	}, {
 		name: "Rust Essentials"
-	},{
+	}, {
 		name: "Rust Libraries"
 	}, {
+		name: "Rust Source liballoc"
+	}, {
+		name: "Rust Source libarena"
+	}, {
+		name: "Rust Source libcore"
+	}, {
+		name: "Rust Source libflate"
+	}, {
+		name: "Rust Source libfmt_macros"
+	}, {
+		name: "Rust Source libstd"
+	}, {
+		name: "Rustonomicon"
+	}, {
 		name: "Rust"
+	}, {
+		name: "Rust Code liballoc"
+	}, {
+		name: "Rust Code liballoc_jemalloc"
+	}, {
+		name: "Rust Code liballoc_system"
+	}, {
+		name: "Rust Code libarena"
+	}, {
+		name: "Rust Code libcollectionstest"
+	}, {
+		name: "Rust Code libcore"
+	}, {
+		name: "Rust Code libcoretest"
+	}, {
+		name: "Rust Code libflate"
+	}, {
+		name: "Rust Code libfmt_macros"
+	}, {
+		name: "Rust Code libgetopts"
+	}, {
+		name: "Rust Code libgraphviz"
+	}, {
+		name: "Rust Code liblog"
+	}, {
+		name: "Rust Code librand"
+	}, {
+		name: "Rust Code librbml"
+	}, {
+		name: "Rust Code librustc"
+	}, {
+		name: "Rust Code librustc_back"
+	}, {
+		name: "Rust Code librustc_bitflags"
+	}, {
+		name: "Rust Code librustc_borrowck"
+	}, {
+		name: "Rust Code librustc_data_structures"
+	}, {
+		name: "Rust Code compiletest"
+	}, {
+		name: "Rust Code driver"
+	}, {
+		name: "Rust Code error-index-generator"
+	}, {
+		name: "Rust Code libcollections"
+	}, {
+		name: "Rust Code librustc_driver"
+	}, {
+		name: "Rust Code librustc_front"
+	}, {
+		name: "Rust Code librustc_lint"
+	}, {
+		name: "Rust Code librustc_llvm"
+	}, {
+		name: "Rust Code librustc_metadata"
+	}, {
+		name: "Rust Code librustc_mir"
+	}, {
+		name: "Rust Code librustc_platform_intrinsics"
+	}, {
+		name: "Rust Code librustc_plugin"
+	}, {
+		name: "Rust Code librustc_privacy"
+	}, {
+		name: "Rust Code librustc_resolve"
+	}, {
+		name: "Rust Code librustc_trans"
+	}, {
+		name: "Rust Code librustc_typeck"
+	}, {
+		name: "Rust Code librustc_unicode"
+	}, {
+		name: "Rust Code librustdoc"
+	}, {
+		name: "Rust Code libserialize"
+	}, {
+		name: "Rust Code libstd"
+	}, {
+		name: "Rust Code libsyntax"
+	}, {
+		name: "Rust Code libsyntax_ext"
+	}, {
+		name: "Rust Code libterm"
+	}, {
+		name: "Rust Code rtstartup"
+	}, {
+		name: "Rust Code rustbook"
 	}, {
 		name: "SASS"
 	}, {
 		name: "Sqlite"
+	}, {
+		name: "Swift"
 	}, {
 		name: "Ubuntu"
 	}];

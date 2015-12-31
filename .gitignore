@@ -4,3 +4,5 @@ test
 static/database
 static/images
 ui
+rust-import/import/target
+rust-import/search/target
